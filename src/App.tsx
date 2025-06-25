@@ -1,12 +1,9 @@
-import { useState } from 'react';
 import { Grid } from '@mui/material';
 import './App.css';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div>
       <h1>Bienvenido al dashboard 🔥</h1>
