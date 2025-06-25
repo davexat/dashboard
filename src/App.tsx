@@ -2,7 +2,6 @@ import { Grid } from '@mui/material';
 import './App.css';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
-
 import SelectorUI from './components/SelectorUI'
 
 function App() {
