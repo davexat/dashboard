@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 import { Grid } from '@mui/material';
 import './App.css'
 
+import SelectorUI from './components/SelectorUI'
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -18,7 +20,9 @@ function App() {
         <Grid size={{ xs: 12, md: 12 }}>Elemento: Alertas</Grid>
 
         {/* Selector */}
-        <Grid size={{ xs: 12, md: 3 }}>Elemento: Selector</Grid>
+        <Grid size={{ xs: 12, md: 3 }}>
+          <SelectorUI /> {/* Usa el componente aquí */}
+        </Grid>
 
         {/* Indicadores */}
         <Grid size={{ xs: 12, md: 9 }}>Elemento: Indicadores</Grid>
