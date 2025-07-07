@@ -2,10 +2,16 @@ import { Grid } from '@mui/material';
 import './App.css';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
+<<<<<<< HEAD
 import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
 
 import SelectorUI from './components/SelectorUI'
+=======
+import SelectorUI from './components/SelectorUI';
+import IndicatorUI from './components/IndicatorUI';
+import DataFetcher from './functions/DataFetcher';
+>>>>>>> david
 
 function App() {
 
@@ -34,14 +40,13 @@ function App() {
 
         {/* Indicadores */}
         <Grid container size={{ xs: 12, md: 9 }} >
-
+          {/* Elemento: Indicadores */}
           {/* Renderizado condicional de los datos obtenidos */}
 
           {dataFetcherOutput.loading && <p>Cargando datos...</p>}
           {dataFetcherOutput.error && <p>Error: {dataFetcherOutput.error}</p>}
           {dataFetcherOutput.data && (
             <>
-
               {/* Indicadores con datos obtenidos */}
 
               <Grid size={{ xs: 12, md: 3 }} >
@@ -70,7 +75,6 @@ function App() {
 
             </>
           )}
-
         </Grid>
 
         {/* Gráfico */}
