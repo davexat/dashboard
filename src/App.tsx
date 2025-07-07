@@ -33,22 +33,6 @@ function App() {
         </Grid>
 
         {/* Indicadores */}
-        <Grid size={{ xs: 12, md: 9 }}>Elemento: Indicadores</Grid>
-
-        {/* Gráfico */}
-        <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: 'none', md: 'block' } }}>
-          Elemento: Gráfico
-        </Grid>
-
-        {/* Tabla */}
-        <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: 'none', md: 'block' } }}>
-          Elemento: Tabla
-        </Grid>
-
-        {/* Información adicional */}
-        <Grid size={{ xs: 12, md: 12 }}>Elemento: Información adicional</Grid>
-
-        {/* Indicadores */}
         <Grid container size={{ xs: 12, md: 9 }} >
 
           {/* Renderizado condicional de los datos obtenidos */}
@@ -88,6 +72,20 @@ function App() {
           )}
 
         </Grid>
+
+        {/* Gráfico */}
+        <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: 'none', md: 'block' } }}>
+          Elemento: Gráfico
+        </Grid>
+
+        {/* Tabla */}
+        <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: 'none', md: 'block' } }}>
+          Elemento: Tabla
+        </Grid>
+
+        {/* Información adicional */}
+        <Grid size={{ xs: 12, md: 12 }}>Elemento: Información adicional</Grid>
+
       </Grid>
     </div>
   )
