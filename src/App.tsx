@@ -2,16 +2,9 @@ import { Grid } from '@mui/material';
 import './App.css';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
-<<<<<<< HEAD
-import IndicatorUI from './components/IndicatorUI';
-import DataFetcher from './functions/DataFetcher';
-
-import SelectorUI from './components/SelectorUI'
-=======
 import SelectorUI from './components/SelectorUI';
 import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
->>>>>>> david
 
 function App() {
 
