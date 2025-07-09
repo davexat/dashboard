@@ -6,20 +6,22 @@ export interface OpenMeteoResponse {
   timezone: string;
   timezone_abbreviation: string;
   elevation: number;
-  current_units: Currentunits;
+  current_units: CurrentUnits;
   current: Current;
-  hourly_units: Hourlyunits;
+  hourly_units: HourlyUnits;
   hourly: Hourly;
 }
 
 export interface Hourly {
   time: string[];
   temperature_2m: number[];
+  wind_speed_10m: number[];
 }
 
-export interface Hourlyunits {
+export interface HourlyUnits {
   time: string;
   temperature_2m: string;
+  wind_speed_10m: string;
 }
 
 export interface Current {
@@ -31,7 +33,7 @@ export interface Current {
   wind_speed_10m: number;
 }
 
-export interface Currentunits {
+export interface CurrentUnits {
   time: string;
   interval: string;
   apparent_temperature: string;
@@ -39,3 +41,4 @@ export interface Currentunits {
   temperature_2m: string;
   wind_speed_10m: string;
 }
+

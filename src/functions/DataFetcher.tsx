@@ -13,7 +13,7 @@ export default function DataFetcher() : DataFetcherOutput {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m&current=apparent_temperature,relative_humidity_2m,temperature_2m,wind_speed_10m&timezone=America%2FChicago`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,wind_speed_10m&current=apparent_temperature,wind_speed_10m,relative_humidity_2m,temperature_2m&timezone=America%2FChicago`;
         const fetchData = async () => {
             try {
                 const response = await fetch(url);
