@@ -7,10 +7,12 @@ import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
+import { useState } from 'react';
 
 function App() {
+  const [city, setCity] = useState<string>('guayaquil');
 
-  const dataFetcherOutput = DataFetcher();
+  const dataFetcherOutput = DataFetcher(city);
 
   return (
     <div>
@@ -30,7 +32,7 @@ function App() {
 
         {/* Selector */}
         <Grid size={{ xs: 12, md: 3 }}>
-          <SelectorUI /> {/* Usa el componente aquí */}
+          <SelectorUI onCityChange={setCity} />
         </Grid>
 
         {/* Indicadores */}
