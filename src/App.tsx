@@ -22,6 +22,11 @@ function App() {
           <HeaderUI />
         </Grid>
 
+        {/* Selector de localización */}
+        <Grid size={{ xs: 3, md: 12 }} container justifyContent="left" alignItems="center" padding={5} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={3}>
+
+        </Grid>
+
         {/* Alertas */}
         <Grid size={{ xs: 12, md: 12 }} container justifyContent="right" alignItems="center">
           Elemento: Alertas
