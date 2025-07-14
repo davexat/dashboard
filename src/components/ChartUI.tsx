@@ -29,7 +29,7 @@ export default function ChartUI({ loading, error, labels, values1, values2 }: Ch
           {
             scaleType: 'point',
             data: labels,
-            tickLabelInterval: (v, i) => i % 12 === 0, // Muestra una etiqueta cada 6 puntos
+            tickLabelInterval: (_, i) => i % 12 === 0, // Muestra una etiqueta cada 6 puntos
             valueFormatter: (v: string) => v.slice(11, 16), // Solo hora y minutos
           }
         ]}
