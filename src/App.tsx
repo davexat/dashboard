@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import { useState } from 'react';
 import './App.css';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
@@ -10,8 +11,13 @@ import ChartUI from './components/ChartUI';
 
 function App() {
 
-  const dataFetcherOutput = DataFetcher();
+  const [city, setCity] = useState('guayaquil'); // Valor por defecto
 
+  const handleCityChange = (newCity: string) => {
+    setCity(newCity);
+  };
+
+  const dataFetcherOutput = DataFetcher(city);
   return (
     <div>
       <h1>Bienvenido al dashboard 🔥</h1>
@@ -30,7 +36,7 @@ function App() {
 
         {/* Selector */}
         <Grid size={{ xs: 12, md: 3 }}>
-          <SelectorUI /> {/* Usa el componente aquí */}
+          <SelectorUI onCityChange={handleCityChange} />
         </Grid>
 
         {/* Indicadores */}
@@ -74,12 +80,24 @@ function App() {
 
         {/* Gráfico */}
         <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: 'none', md: 'block' } }}>
-          <ChartUI />
+          <ChartUI
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            labels={dataFetcherOutput.data?.hourly.time ?? []}
+            values1={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
+            values2={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
+          />
         </Grid>
 
         {/* Tabla */}
         <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: 'none', md: 'block' } }}>
-          <TableUI />
+          <TableUI
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            labels={dataFetcherOutput.data?.hourly.time ?? []}
+            values1={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
+            values2={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
+          />
         </Grid>
 
         {/* Información adicional */}

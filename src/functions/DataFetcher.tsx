@@ -7,13 +7,21 @@ interface DataFetcherOutput {
     error: string | null;
 }
 
-export default function DataFetcher() : DataFetcherOutput {
+const cityCoords: Record<string, { lat: number, lon: number }> = {
+  guayaquil: { lat: -2.1962, lon: -79.8862 },
+  quito: { lat: -0.1807, lon: -78.4678 },
+  manta: { lat: -0.9677, lon: -80.7089 },
+  cuenca: { lat: -2.9006, lon: -79.0045 },
+};
+
+export default function DataFetcher(city = 'guayaquil') : DataFetcherOutput {
     const [data, setData] = useState<OpenMeteoResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,wind_speed_10m&current=apparent_temperature,wind_speed_10m,relative_humidity_2m,temperature_2m&timezone=America%2FChicago`;
+        const coords = cityCoords[city] || cityCoords.guayaquil;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&hourly=temperature_2m,wind_speed_10m&current=apparent_temperature,wind_speed_10m,relative_humidity_2m,temperature_2m&timezone=America%2FChicago`;
         const fetchData = async () => {
             try {
                 const response = await fetch(url);
@@ -33,6 +41,6 @@ export default function DataFetcher() : DataFetcherOutput {
             }
         };
         fetchData();
-    }, []);
+    }, [city]);
     return { data, loading, error };
 }

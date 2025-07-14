@@ -1,25 +1,39 @@
 import { LineChart } from '@mui/x-charts/LineChart';
 import Typography from '@mui/material/Typography';
 
-const arrValues1 = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
-const arrValues2 = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
-const arrLabels = ['A','B','C','D','E','F','G'];
+interface ChartUIProps {
+  loading: boolean;
+  error: string | null;
+  labels: string[];
+  values1: number[];
+  values2: number[];
+}
 
+export default function ChartUI({ loading, error, labels, values1, values2 }: ChartUIProps) {
+  if (loading) return <Typography>Cargando gráfico...</Typography>;
+  if (error) return <Typography color="error">Error: {error}</Typography>;
+  if (!labels.length || !values1.length || !values2.length) return <Typography>No hay datos para mostrar.</Typography>;
 
-export default function ChartUI() {
-   return (
-      <>
-         <Typography variant="h5" component="div">
-            Chart arrLabels vs arrValues1 & arrValues2
-         </Typography>
-         <LineChart
-            height={300}
-            series={[
-               { data: arrValues1, label: 'value1'},
-               { data: arrValues2, label: 'value2'},
-            ]}
-            xAxis={[{ scaleType: 'point', data: arrLabels }]}
-         />
-      </>
-   );
+  return (
+    <>
+      <Typography variant="h5" component="div">
+        Temperatura y velocidad del viento por hora
+      </Typography>
+      <LineChart
+        height={300}
+        series={[
+          { data: values1, label: 'Temperatura (°C)', showMark:false },
+          { data: values2, label: 'Velocidad viento (km/h)', showMark:false },
+        ]}
+        xAxis={[
+          {
+            scaleType: 'point',
+            data: labels,
+            tickLabelInterval: (v, i) => i % 12 === 0, // Muestra una etiqueta cada 6 puntos
+            valueFormatter: (v: string) => v.slice(11, 16), // Solo hora y minutos
+          }
+        ]}
+      />
+    </>
+  );
 }
