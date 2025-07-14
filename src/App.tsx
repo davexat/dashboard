@@ -18,7 +18,7 @@ function App() {
     <>
       <Grid container spacing={5} justifyContent="center" alignItems="center">
         {/* Encabezado */}
-        <Grid size={{ xs: 12, md: 12 }} container justifyContent="left" alignItems="center" padding={5} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={3} sx={{background: "linear-gradient(90deg, #4A7BD3 0%, #3255A2 50%, #1A2C6B 100%)"}}>
+        <Grid size={{ xs: 12, md: 12 }} container justifyContent="left" alignItems="center" padding={4} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={3} sx={{background: "linear-gradient(90deg, #4A7BD3 0%, #3255A2 50%, #1A2C6B 100%)"}}>
           <HeaderUI />
         </Grid>
 
