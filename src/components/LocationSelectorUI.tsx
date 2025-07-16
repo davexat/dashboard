@@ -54,7 +54,7 @@ export default function LocationSelectorUI({ onLocationSelect }: { onLocationSel
                                 <ListItemButton onClick={() => onLocationSelect(loc)}>
                                     <ListItemText
                                         primary={loc.display_name}
-                                        secondary={`Lat: ${loc.lat}, Lon: ${loc.lon}`}
+                                        secondary={`Lat: ${loc.lat}, Lon: ${loc.lon}, Tipo: ${loc.addresstype}`}
                                     />
                                 </ListItemButton>
                             </ListItem>
