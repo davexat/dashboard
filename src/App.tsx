@@ -3,6 +3,7 @@ import './App.css';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
 import SelectorUI from './components/SelectorUI';
+import LocationSelectorUI from './components/LocationSelectorUI';
 import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
 import TableUI from './components/TableUI';
@@ -10,7 +11,7 @@ import ChartUI from './components/ChartUI';
 import { useState } from 'react';
 
 function App() {
-  const [city, setCity] = useState<string>('guayaquil');
+  const [city, setCity] = useState<string>('');
 
   const dataFetcherOutput = DataFetcher(city);
 
@@ -36,6 +37,7 @@ function App() {
         {/* Selector */}
         <Grid size={{ xs: 12, md: 3 }}>
           <SelectorUI onCityChange={setCity} />
+          <LocationSelectorUI onLocationSelect={(loc) => setCity(loc.display_name)} />
         </Grid>
 
         {/* Indicadores */}
