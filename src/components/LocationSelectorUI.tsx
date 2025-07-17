@@ -12,7 +12,7 @@ import LocationFetcher from '../functions/LocationFetcher';
 
 export default function LocationSelectorUI({ onLocationSelect }: { onLocationSelect: (location: Location) => void }) {
     const [cityInput, setCityInput] = useState('');
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState('guayaquil');
     const [isFocused, setIsFocused] = useState(false);
     const { locations, loading, error } = LocationFetcher(search);
 
@@ -50,11 +50,11 @@ export default function LocationSelectorUI({ onLocationSelect }: { onLocationSel
                     sx={{ mt: 2, maxHeight: 200, overflowY: 'auto', position: 'absolute', zIndex: 1}}>
                     <List dense>
                         {locations.map((loc) => (
-                            <ListItem key={loc.place_id} disablePadding>
+                            <ListItem disablePadding>
                                 <ListItemButton onClick={() => onLocationSelect(loc)}>
                                     <ListItemText
-                                        primary={loc.display_name}
-                                        secondary={`Lat: ${loc.lat}, Lon: ${loc.lon}, Tipo: ${loc.addresstype}`}
+                                        primary={loc.name}
+                                        secondary={`Lat: ${loc.lat}, Lon: ${loc.lon}, Country: ${loc.country}${loc.state ? `, State: ${loc.state}` : ''}`}
                                     />
                                 </ListItemButton>
                             </ListItem>
