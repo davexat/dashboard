@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { MapPin } from 'lucide-react';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
@@ -13,6 +12,7 @@ import type { Location } from '../types/DashboardTypes';
 import LocationFetcher from '../functions/LocationFetcher';
 import { DEFAULT_LOCATION } from '../App';
 import Container from '@mui/material/Container';
+import { InputAdornment } from '@mui/material';
 
 export default function LocationSelectorUI({ onLocationSelect }: { onLocationSelect: (location: Location) => void }) {
     const [location, setLocation] = useState<Location>(DEFAULT_LOCATION);
@@ -33,6 +33,7 @@ export default function LocationSelectorUI({ onLocationSelect }: { onLocationSel
         setLocation(loc);
         setCityInput(loc.name);
         setIsFocused(false);
+        onLocationSelect(loc);
     };
 
     useEffect(() => {
@@ -45,14 +46,14 @@ export default function LocationSelectorUI({ onLocationSelect }: { onLocationSel
     }, [cityInput]);
 
     return (
-        <Box sx={{ textAlign: 'left' }}>
-            <Box display="flex" alignItems={'center'} gap={1} position="relative" padding={2} sx={{ justifyContent: 'flex-start' }}>
+        <Container disableGutters sx={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 2, padding: 1 }}>
+            <Container disableGutters sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <MapPin size={22} color='#1e40af' />
                 <Typography variant="h5" component="h6" color='#000' sx={{ textAlign: 'left' }}>
                     Localización
                 </Typography>
-            </Box>
-            <Box display="flex" gap={1} position="relative" padding={2} sx={{ justifyContent: 'flex-start' }}>
+            </Container>
+            <Container disableGutters sx={{ position: "relative" }}>
                 <TextField
                     label="Buscar ubicación"
                     variant="outlined"
@@ -62,44 +63,52 @@ export default function LocationSelectorUI({ onLocationSelect }: { onLocationSel
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     autoComplete="off"
+                    slotProps={{
+                        input: {
+                            endAdornment: <InputAdornment position='end'>
+                                {loading && (<CircularProgress size={24}/>)}
+                            </InputAdornment>
+                        }
+                    }}
+                    
                 />
-            </Box>
-            {loading && (<CircularProgress size={24} sx={{ mt: 2 }} />)}
-            {error && (<Box color="error.main" mt={2}>{error}</Box>)}
-            {locations && locations.length > 0 && isFocused && (
-                <Paper
-                    sx={{ mt: 2, maxHeight: 200, overflowY: 'auto', position: 'absolute', zIndex: 1, textAlign: 'left' }}>
-                    <List dense>
-                        {locations.map((loc) => (
-                            <ListItem disablePadding>
-                                <ListItemButton onClick={() => handleLocationSelect(loc)}>
-                                    <ListItemText
-                                        primary={loc.name}
-                                        secondary={`Lat: ${loc.lat}, Lon: ${loc.lon}, Country: ${loc.country}${loc.state ? `, State: ${loc.state}` : ''}`}
-                                        sx={{ textAlign: 'left' }}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                </Paper>
-            )}
-            <Box sx={{ backgroundColor: '#eff6ff', borderRadius: 1 , border: '1px solid #bfdbfe', padding: 1, gap: 1, display: 'flex', flexDirection: 'column', textAlign: 'left', width: '100%' }}>
-                <Container sx={{ display: 'flex', gap: 1, justifyContent: 'flex-start' }}>
+                {error && (<Container sx={{ color: "error.main", mt: 0 }}>{error}</Container>)}
+                {locations && locations.length > 0 && isFocused && (
+                    <Paper
+                        sx={{ maxHeight: 200, overflowY: 'auto', position: 'absolute', zIndex: 1, textAlign: 'left', top: 60 }}>
+                        <List dense>
+                            {locations.map((loc) => (
+                                <ListItem key={`${loc.name}${loc.lat.toFixed(2)}${loc.lon.toFixed(2)}`} disablePadding>
+                                    <ListItemButton onClick={() => handleLocationSelect(loc)}>
+                                        <ListItemText
+                                            primary={loc.name}
+                                            secondary={`Lat: ${loc.lat}, Lon: ${loc.lon}, Country: ${loc.country}${loc.state ? `, State: ${loc.state}` : ''}`}
+                                            sx={{ textAlign: 'left' }}
+                                        />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Paper>
+                )}
+            </Container>
+            <Container disableGutters sx={{ backgroundColor: '#eff6ff', borderRadius: 1, border: '1px solid #bfdbfe', padding: 2, gap: 1, display: 'flex', flexDirection: 'column' }}>
+                <Container disableGutters sx={{ display: 'flex', gap: 1, justifyContent: 'flex-start' }}>
                     <MapPin size={20} color='#1e40af' />
                     <Typography variant="subtitle1" component="p" color='#1e40af'>
                         Localización actual
                     </Typography>
                 </Container>
-                <Container sx={{ textAlign: 'left'}}>
-                        <Typography variant="body1" component="p" color='#1e3a8a'>
+                <Container disableGutters sx={{ textAlign: 'left' }}>
+                    <Typography variant="body1" component="p" color='#1e3a8a'>
                         {location.name}, {location.country}
                     </Typography>
                     <Typography variant="subtitle1" component="p" color='#2563eb'>
                         Latitud: {location.lat.toFixed(2)}, Longitud: {location.lon.toFixed(2)}
                     </Typography>
                 </Container>
-            </Box>
-        </Box>
+            </Container>
+
+        </Container>
     );
 }
