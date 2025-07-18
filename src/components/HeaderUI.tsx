@@ -1,4 +1,4 @@
-import Typography from '@mui/material/Typography';
+ import Typography from '@mui/material/Typography';
 import { CloudSun } from 'lucide-react';
 
 export default function HeaderUI() {

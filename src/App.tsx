@@ -2,7 +2,6 @@ import { Grid } from '@mui/material';
 import './App.css';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
-import SelectorUI from './components/SelectorUI';
 import LocationSelectorUI from './components/LocationSelectorUI';
 import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
@@ -11,16 +10,18 @@ import ChartUI from './components/ChartUI';
 import type { Location } from './types/DashboardTypes';
 import { useState } from 'react';
 
-function App() {
-  const [city, setCity] = useState<Location>({
-    name: 'Guayaquil',
-    lat: -2.1936,
-    lon: -79.8777,
-    country: 'Ecuador',
-    state: 'Guayas',
-  });
+export const DEFAULT_LOCATION: Location = {
+  name: 'Guayaquil',
+  lat: -2.1936,
+  lon: -79.8777,
+  country: 'Ecuador',
+  state: 'Guayas',
+};
 
-  const dataFetcherOutput = DataFetcher(city.name);
+function App() {
+  const [city, setCity] = useState<Location>(DEFAULT_LOCATION);
+
+  const dataFetcherOutput = DataFetcher(city);
 
   return (
     <>
@@ -31,19 +32,14 @@ function App() {
         </Grid>
 
         {/* Selector de localización */}
-        <Grid size={{ xs: 3, md: 12 }} container justifyContent="left" alignItems="center" padding={5} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={3}>
-
+        <Grid size={{ xs: 12, md: 6 }} container justifyContent="left" alignItems="center" padding={3} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={3} sx={{background: "#fff"}}>
+          <LocationSelectorUI onLocationSelect={setCity}/>
         </Grid>
 
         {/* Alertas */}
         <Grid size={{ xs: 12, md: 12 }} container justifyContent="right" alignItems="center">
           Elemento: Alertas
           <AlertUI description="No se preveen lluvias" />
-        </Grid>
-
-        {/* Selector */}
-        <Grid size={{ xs: 12, md: 3 }}>
-          <LocationSelectorUI onLocationSelect={setCity} />
         </Grid>
 
         {/* Indicadores */}
