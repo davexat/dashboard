@@ -14,6 +14,7 @@ export default function LocationSelectorUI({ onLocationSelect }: { onLocationSel
     const [cityInput, setCityInput] = useState('');
     const [search, setSearch] = useState('guayaquil');
     const [isFocused, setIsFocused] = useState(false);
+
     const { locations, loading, error } = LocationFetcher(search);
 
     const handleFocus = () => setIsFocused(true);
@@ -25,7 +26,9 @@ export default function LocationSelectorUI({ onLocationSelect }: { onLocationSel
 
     useEffect(() => {
         const handler = setTimeout(() => {
-            setSearch(cityInput);
+            if (cityInput.trim() !== '') {
+                setSearch(cityInput);
+            }
         }, 1000);
         return () => clearTimeout(handler);
     }, [cityInput]);
@@ -43,8 +46,8 @@ export default function LocationSelectorUI({ onLocationSelect }: { onLocationSel
                     onBlur={handleBlur}
                 />
             </Box>
-            {loading && <CircularProgress size={24} sx={{ mt: 2 }} />}
-            {error && <Box color="error.main" mt={2}>{error}</Box>}
+            {loading && (<CircularProgress size={24} sx={{ mt: 2 }} />)}
+            {error && (<Box color="error.main" mt={2}>{error}</Box>)}
             {locations && locations.length > 0 && isFocused && (
                 <Paper
                     sx={{ mt: 2, maxHeight: 200, overflowY: 'auto', position: 'absolute', zIndex: 1}}>

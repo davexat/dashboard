@@ -8,12 +8,19 @@ import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
+import type { Location } from './types/DashboardTypes';
 import { useState } from 'react';
 
 function App() {
-  const [city, setCity] = useState<string>('');
+  const [city, setCity] = useState<Location>({
+    name: 'Guayaquil',
+    lat: -2.1936,
+    lon: -79.8777,
+    country: 'Ecuador',
+    state: 'Guayas',
+  });
 
-  const dataFetcherOutput = DataFetcher(city);
+  const dataFetcherOutput = DataFetcher(city.name);
 
   return (
     <>
@@ -36,8 +43,7 @@ function App() {
 
         {/* Selector */}
         <Grid size={{ xs: 12, md: 3 }}>
-          <SelectorUI onCityChange={setCity} />
-          <LocationSelectorUI onLocationSelect={(loc) => setCity(loc.display_name)} />
+          <LocationSelectorUI onLocationSelect={setCity} />
         </Grid>
 
         {/* Indicadores */}
