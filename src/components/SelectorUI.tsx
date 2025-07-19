@@ -4,7 +4,11 @@ import InputLabel from '@mui/material/InputLabel';
 import Select, { type SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-export default function SelectorUI({ onCityChange} : { onCityChange: (city: string) => void }) {
+interface SelectorUIProps {
+  onCityChange: (city: string) => void;
+}
+
+export default function SelectorUI({ onCityChange }: SelectorUIProps) {
    const [cityInput, setCityInput] = useState('');
 
    const handleChange = (event: SelectChangeEvent<string>) => {

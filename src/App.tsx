@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import { useState } from 'react';
 import './App.css';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
@@ -7,13 +8,16 @@ import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
-import { useState } from 'react';
+import CohereAssistantUI from './components/WeatherAssistantUI';
 
 function App() {
   const [city, setCity] = useState<string>('guayaquil');
 
-  const dataFetcherOutput = DataFetcher(city);
+  const handleCityChange = (newCity: string) => {
+    setCity(newCity);
+  };
 
+  const dataFetcherOutput = DataFetcher(city);
   return (
     <>
       <Grid container spacing={5} justifyContent="center" alignItems="center">
@@ -35,7 +39,7 @@ function App() {
 
         {/* Selector */}
         <Grid size={{ xs: 12, md: 3 }}>
-          <SelectorUI onCityChange={setCity} />
+          <SelectorUI onCityChange={handleCityChange} />
         </Grid>
 
         {/* Indicadores */}
@@ -79,16 +83,33 @@ function App() {
 
         {/* Gráfico */}
         <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: 'none', md: 'block' } }}>
-          <ChartUI />
+          <ChartUI
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            labels={dataFetcherOutput.data?.hourly.time ?? []}
+            values1={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
+            values2={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
+          />
         </Grid>
 
         {/* Tabla */}
         <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: 'none', md: 'block' } }}>
-          <TableUI />
+          <TableUI
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            labels={dataFetcherOutput.data?.hourly.time ?? []}
+            values1={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
+            values2={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
+          />
         </Grid>
 
         {/* Información adicional */}
-        <Grid size={{ xs: 12, md: 12 }}>Elemento: Información adicional</Grid>
+        <Grid size={{ xs: 12, md: 12 }}>
+          <CohereAssistantUI
+            weatherData={dataFetcherOutput.data?.current}
+            weatherInfo={dataFetcherOutput.data?.hourly}
+          />
+        </Grid>
 
       </Grid>
     </>
