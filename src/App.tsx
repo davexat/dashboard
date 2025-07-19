@@ -31,15 +31,14 @@ function App() {
           <HeaderUI />
         </Grid>
 
-        {/* Selector de localización */}
-        <Grid size={{ xs: 12, md: 6 }} container justifyContent="left" alignItems="center" padding={3} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={2} sx={{background: "#fff"}}>
-          <LocationSelectorUI onLocationSelect={setCity}/>
+        {/* Alertas */}
+        <Grid size={{ xs: 12, md: 6 }} container alignItems="center">
+          <AlertUI />
         </Grid>
 
-        {/* Alertas */}
-        <Grid size={{ xs: 12, md: 12 }} container justifyContent="right" alignItems="center">
-          Elemento: Alertas
-          <AlertUI description="No se preveen lluvias" />
+        {/* Selector de localización */}
+        <Grid size={{ xs: 12, md: 6 }} container alignItems="center" padding={3} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={2} sx={{background: "#fff"}}>
+          <LocationSelectorUI onLocationSelect={setCity}/>
         </Grid>
 
         {/* Indicadores */}
