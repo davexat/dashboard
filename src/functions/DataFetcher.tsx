@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Location, OpenMeteoResponse } from '../types/DashboardTypes';
-
-interface DataFetcherOutput {
-    data: OpenMeteoResponse | null;
-    loading: boolean;
-    error: string | null;
-}
+import type { DataFetcherOutput } from '../interfaces/DataFetcherOutput';
 
 const CACHE_DURATION_MINUTES = 30;
 

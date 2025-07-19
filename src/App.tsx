@@ -1,9 +1,10 @@
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import './App.css';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
 import LocationSelectorUI from './components/LocationSelectorUI';
 import IndicatorUI from './components/IndicatorUI';
+import Indicator2UI from './components/Indicator2UI';
 import DataFetcher from './functions/DataFetcher';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
@@ -32,13 +33,18 @@ function App() {
         </Grid>
 
         {/* Alertas */}
-        <Grid size={{ xs: 12, md: 6 }} container alignItems="center">
+        <Grid size={{ xs: 12, md: 6 }} spacing={1} container alignItems="center">
+          <Typography variant='h4' component='h1'>Alertas</Typography>
           <AlertUI />
         </Grid>
 
         {/* Selector de localización */}
         <Grid size={{ xs: 12, md: 6 }} container alignItems="center" padding={3} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={2} sx={{background: "#fff"}}>
           <LocationSelectorUI onLocationSelect={setCity}/>
+        </Grid>
+
+        <Grid container size={{ xs: 12, md: 9 }} >
+          <Indicator2UI data={dataFetcherOutput}></Indicator2UI>
         </Grid>
 
         {/* Indicadores */}
