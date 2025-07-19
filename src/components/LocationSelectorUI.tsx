@@ -14,26 +14,29 @@ import { DEFAULT_LOCATION } from '../App';
 import Container from '@mui/material/Container';
 import { InputAdornment } from '@mui/material';
 
-export default function LocationSelectorUI({ onLocationSelect }: { onLocationSelect: (location: Location) => void }) {
-    const [location, setLocation] = useState<Location>(DEFAULT_LOCATION);
-    const [cityInput, setCityInput] = useState('');
-    const [search, setSearch] = useState(DEFAULT_LOCATION.name);
-    const [isFocused, setIsFocused] = useState(false);
+export default function LocationSelectorUI(
+    { onLocationSelect }: { onLocationSelect: (location: Location) => void }
+) {
+    const [location, setLocation]   = useState<Location>(DEFAULT_LOCATION);
+    const [cityInput, setCityInput] = useState<string>('');
+    const [search, setSearch]       = useState<string>(DEFAULT_LOCATION.name);
+    const [isFocused, setIsFocused] = useState<boolean>(false);
 
     const { locations, loading, error } = LocationFetcher(search);
 
     const handleFocus = () => setIsFocused(true);
-    const handleBlur = () => setIsFocused(false);
+    const handleBlur = () => {
+        setTimeout(() => setIsFocused(false), 100);
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCityInput(e.target.value);
     };
 
     const handleLocationSelect = (loc: Location) => {
-        setLocation(loc);
-        setCityInput(loc.name);
-        setIsFocused(false);
         onLocationSelect(loc);
+        setLocation(loc);
+        setIsFocused(false);
     };
 
     useEffect(() => {
@@ -78,8 +81,8 @@ export default function LocationSelectorUI({ onLocationSelect }: { onLocationSel
                         sx={{ maxHeight: 200, overflowY: 'auto', position: 'absolute', zIndex: 1, textAlign: 'left', top: 60 }}>
                         <List dense>
                             {locations.map((loc) => (
-                                <ListItem key={`${loc.name}${loc.lat.toFixed(2)}${loc.lon.toFixed(2)}`} disablePadding>
-                                    <ListItemButton onClick={() => handleLocationSelect(loc)}>
+                                <ListItem key={`${loc.name}${loc.lat}${loc.lon}`} disablePadding>
+                                    <ListItemButton onClick={() => handleLocationSelect(loc) }>
                                         <ListItemText
                                             primary={loc.name}
                                             secondary={`Lat: ${loc.lat}, Lon: ${loc.lon}, Country: ${loc.country}${loc.state ? `, State: ${loc.state}` : ''}`}

@@ -1,4 +1,4 @@
-import type { OpenMeteoResponse } from "../types/DashboardTypes";
+import type { OpenMeteoResponse } from "./DashboardTypes";
 
 export interface DataFetcherOutput {
     data: OpenMeteoResponse | null;

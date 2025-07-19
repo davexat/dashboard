@@ -25,8 +25,13 @@ export default function LocationFetcher(city: string): LocationFetcherOutput {
                     throw new Error(`Error HTTP: ${response.status} - ${response.statusText}`);
                 }
                 const result: Location[] = await response.json();
+                const formatted = result.map(loc => ({
+                    ...loc,
+                    lat: Number(loc.lat.toFixed(4)),
+                    lon: Number(loc.lon.toFixed(4))
+                }));
+                setLocations(formatted);
 
-                setLocations(result);
             } catch (err: any) {
                 setError('Error al obtener ubicaciones.');
             } finally {

@@ -10,7 +10,7 @@ import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
 import CohereAssistantUI from './components/WeatherAssistantUI';
 import type { Location } from './types/DashboardTypes';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const DEFAULT_LOCATION: Location = {
   name: 'Guayaquil',
@@ -22,6 +22,14 @@ export const DEFAULT_LOCATION: Location = {
 
 function App() {
   const [city, setCity] = useState<Location>(DEFAULT_LOCATION);
+  const [elpepe, etesech] = useState(0);
+
+  useEffect(() => {
+    console.log('SCAR DORADA')
+    etesech(elpepe+1)
+    console.log(elpepe)
+  }, [city])
+
   const dataFetcherOutput = DataFetcher(city);
   
   return (
@@ -49,15 +57,11 @@ function App() {
 
         {/* Indicadores */}
         <Grid container size={{ xs: 12, md: 9 }} >
-          {/* Elemento: Indicadores */}
-          {/* Renderizado condicional de los datos obtenidos */}
 
           {dataFetcherOutput.loading && <p>Cargando datos...</p>}
           {dataFetcherOutput.error && <p>Error: {dataFetcherOutput.error}</p>}
           {dataFetcherOutput.data && (
             <>
-              {/* Indicadores con datos obtenidos */}
-
               <Grid size={{ xs: 12, md: 3 }} >
                 <IndicatorUI
                   title='Temperatura (2m)'

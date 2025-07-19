@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import type { DataFetcherOutput } from '../interfaces/DataFetcherOutput';
+import type { DataFetcherOutput } from '../types/Interfaces';
 import { Thermometer } from 'lucide-react';
 
 interface IndicatorUIProps {
@@ -41,6 +41,7 @@ function IndicatorTemplate(indicator: IndicatorUIProps) {
 
 export default function Indicator2UI({ data }: { data: DataFetcherOutput }) {
     const temperature = data.data?.current.temperature_2m;
+
     const indicatorProps: IndicatorUIProps = {
         icon: <Thermometer size={24} color='red' />,
         type: 'Temperatura',
