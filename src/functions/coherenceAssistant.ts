@@ -22,7 +22,7 @@ export async function getCohereWeatherResponse(userQuery: string): Promise<strin
   const response = await fetch("https://api.cohere.com/v2/chat", {
     method: "POST",
     headers: {
-      "Authorization": "Bearer ${COHERE_API_KEY}", // Reemplaza esto con tu API Key segura
+      "Authorization": `Bearer ${COHERE_API_KEY}`, // Reemplaza esto con tu API Key segura
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
