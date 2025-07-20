@@ -38,7 +38,7 @@ export default function ChartUI({ loading, error, labels, values1, values2 }: Ch
               return value.slice(11, 16) === "00:00";
             },
             valueFormatter: (v: string, context?: { location?: string }) =>
-              context?.location === 'tooltip' ? v.slice(11, 16) : v.slice(0, 10),
+              context?.location === 'tooltip' ? v.slice(0, 10) + " - " + v.slice(11, 16) : v.slice(0, 10),
 
           }
         ]}
