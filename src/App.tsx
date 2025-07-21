@@ -22,14 +22,6 @@ export const DEFAULT_LOCATION: Location = {
 
 function App() {
   const [city, setCity] = useState<Location>(DEFAULT_LOCATION);
-  const [elpepe, etesech] = useState(0);
-
-  useEffect(() => {
-    console.log('SCAR DORADA')
-    etesech(elpepe+1)
-    console.log(elpepe)
-  }, [city])
-
   const dataFetcherOutput = DataFetcher(city);
   
   return (
