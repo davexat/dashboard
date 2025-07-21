@@ -40,3 +40,25 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Scrollbar para DataGrid */
+.MuiDataGrid-root ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: #e0e7ef;
+  border-radius: 8px;
+}
+
+.MuiDataGrid-root ::-webkit-scrollbar-thumb {
+  background: #4A7BD3;
+  border-radius: 8px;
+  border: 2px solid #e0e7ef;
+}
+
+.MuiDataGrid-root ::-webkit-scrollbar-thumb:hover {
+  background: #3255A2;
+}
+
+.MuiDataGrid-root ::-webkit-scrollbar-corner {
+  background: #e0e7ef;
+}

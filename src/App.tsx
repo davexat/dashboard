@@ -22,14 +22,6 @@ export const DEFAULT_LOCATION: Location = {
 
 function App() {
   const [city, setCity] = useState<Location>(DEFAULT_LOCATION);
-  const [elpepe, etesech] = useState(0);
-
-  useEffect(() => {
-    console.log('SCAR DORADA')
-    etesech(elpepe+1)
-    console.log(elpepe)
-  }, [city])
-
   const dataFetcherOutput = DataFetcher(city);
   
   return (
@@ -91,7 +83,14 @@ function App() {
         </Grid>
 
         {/* Gráfico */}
-        <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: 'none', md: 'block' } }}>
+        <Grid size={{ xs: 12, md: 6 }} 
+          sx={{ 
+            display: { md: 'block' }, 
+            background: '#f5f5f5',
+            borderRadius: 2,
+            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+            padding: 2
+          }}>
           <ChartUI
             loading={dataFetcherOutput.loading}
             error={dataFetcherOutput.error}
@@ -102,7 +101,10 @@ function App() {
         </Grid>
 
         {/* Tabla */}
-        <Grid size={{ xs: 12, md: 6 }} sx={{ display: { xs: 'none', md: 'block' } }}>
+        <Grid size={{ xs: 12, md: 6 }} 
+          sx={{ 
+            display: {md: 'block' } 
+          }}>
           <TableUI
             loading={dataFetcherOutput.loading}
             error={dataFetcherOutput.error}

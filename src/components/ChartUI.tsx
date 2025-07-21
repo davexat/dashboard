@@ -16,21 +16,29 @@ export default function ChartUI({ loading, error, labels, values1, values2 }: Ch
 
   return (
     <>
-      <Typography variant="h5" component="div">
+      <Typography variant="h5" component="div" sx={{
+        color: '#000'
+      }}>
         Temperatura y velocidad del viento por hora
       </Typography>
       <LineChart
         height={300}
         series={[
-          { data: values1, label: 'Temperatura (°C)', showMark:false },
-          { data: values2, label: 'Velocidad viento (km/h)', showMark:false },
+          { data: values1, label: 'Temperatura (°C)', showMark: false },
+          { data: values2, label: 'Velocidad viento (km/h)', showMark: false },
         ]}
         xAxis={[
           {
             scaleType: 'point',
             data: labels,
-            tickLabelInterval: (_, i) => i % 12 === 0, // Muestra una etiqueta cada 6 puntos
-            valueFormatter: (v: string) => v.slice(11, 16), // Solo hora y minutos
+            tickInterval: (value, _) => {
+              // value es el string de la hora, por ejemplo "2024-07-20T00:00"
+              // Solo muestra tick si la hora es "00:00"
+              return value.slice(11, 16) === "00:00";
+            },
+            valueFormatter: (v: string, context?: { location?: string }) =>
+              context?.location === 'tooltip' ? v.slice(0, 10) + " - " + v.slice(11, 16) : v.slice(0, 10),
+
           }
         ]}
       />
