@@ -6,40 +6,82 @@ export interface OpenMeteoResponse {
   timezone: string;
   timezone_abbreviation: string;
   elevation: number;
-  current_units: CurrentUnits;
+  current_units: Currentunits;
   current: Current;
-  hourly_units: HourlyUnits;
+  hourly_units: Hourlyunits;
   hourly: Hourly;
+  daily_units: Dailyunits;
+  daily: Daily;
+}
+
+export interface Daily {
+  time: string[];
+  sunset: string[];
+  sunrise: string[];
+  uv_index_max: number[];
+  weather_code: number[];
+  temperature_2m_max: number[];
+  temperature_2m_min: number[];
+  rain_sum: number[];
+  precipitation_probability_max: number[];
+  wind_speed_10m_max: number[];
+  snowfall_sum: number[];
+}
+
+export interface Dailyunits {
+  time: string;
+  sunset: string;
+  sunrise: string;
+  uv_index_max: string;
+  weather_code: string;
+  temperature_2m_max: string;
+  temperature_2m_min: string;
+  rain_sum: string;
+  precipitation_probability_max: string;
+  wind_speed_10m_max: string;
+  snowfall_sum: string;
 }
 
 export interface Hourly {
   time: string[];
+  relative_humidity_2m: number[];
   temperature_2m: number[];
   wind_speed_10m: number[];
+  weather_code: number[];
+  precipitation_probability: number[];
+  precipitation: number[];
+  rain: number[];
+  snowfall: number[];
 }
 
-export interface HourlyUnits {
+export interface Hourlyunits {
   time: string;
+  relative_humidity_2m: string;
   temperature_2m: string;
   wind_speed_10m: string;
+  weather_code: string;
+  precipitation_probability: string;
+  precipitation: string;
+  rain: string;
+  snowfall: string;
 }
 
 export interface Current {
   time: string;
   interval: number;
-  apparent_temperature: number;
   relative_humidity_2m: number;
   temperature_2m: number;
   wind_speed_10m: number;
+  apparent_temperature: number;
 }
 
-export interface CurrentUnits {
+export interface Currentunits {
   time: string;
   interval: string;
-  apparent_temperature: string;
   relative_humidity_2m: string;
   temperature_2m: string;
   wind_speed_10m: string;
+  apparent_temperature: string;
 }
 
 export interface Location {
