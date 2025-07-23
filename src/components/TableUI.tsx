@@ -67,8 +67,9 @@ export default function TableUI({ loading, error, labels, values1, values2 }: Ta
 
   return (
     <Box sx={{
-      height: 390,
+      height: 400,
       width: '100%',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.08)', // Subtle shadow
       '.MuiDataGrid-root': {
         border: 'none',
         boxShadow: 'none',

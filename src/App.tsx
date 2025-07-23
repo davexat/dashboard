@@ -59,10 +59,6 @@ function App() {
         <Grid size={{ xs: 12, lg: 6 }}
           sx={{
             display: { md: 'block' },
-            background: '#f5f5f5',
-            borderRadius: 2,
-            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-            padding: 2
           }}>
           <ChartUI
             loading={dataFetcherOutput.loading}
@@ -77,10 +73,6 @@ function App() {
         <Grid size={{ xs: 12, lg: 6 }}
           sx={{
             display: { md: 'block' },
-            background: '#f5f5f5',
-            borderRadius: 2,
-            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-            padding: 2
           }}>
           <DailyTemperatureChartUI
             loading={dataFetcherOutput.loading}
@@ -95,10 +87,6 @@ function App() {
         <Grid size={{ xs: 12, lg: 6 }}
           sx={{
             display: { md: 'block' },
-            background: '#f5f5f5',
-            borderRadius: 2,
-            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-            padding: 2
           }}>
           <HourlyWindSpeedChartUI
             loading={dataFetcherOutput.loading}
