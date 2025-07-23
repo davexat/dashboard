@@ -7,13 +7,12 @@ interface ChartUIProps {
   error: string | null;
   labels: string[];
   values1: number[];
-  values2: number[];
 }
 
-export default function ChartUI({ loading, error, labels, values1, values2 }: ChartUIProps) {
+export default function ChartUI({ loading, error, labels, values1 }: ChartUIProps) {
   if (loading) return <Typography>Cargando gráfico...</Typography>;
   if (error) return <Typography color="error">Error: {error}</Typography>;
-  if (!labels.length || !values1.length || !values2.length) return <Typography>No hay datos para mostrar.</Typography>;
+  if (!labels.length || !values1.length) return <Typography>No hay datos para mostrar.</Typography>;
 
   return (
     <Box
@@ -33,13 +32,12 @@ export default function ChartUI({ loading, error, labels, values1, values2 }: Ch
         fontWeight: 600,
         mb: 2, // Margin bottom for spacing
       }}>
-        Temperatura y Velocidad del Viento por Hora
+        Temperatura por Hora
       </Typography>
       <LineChart
         height={300}
         series={[
           { data: values1, label: 'Temperatura (°C)', showMark: false, color: '#ef4444' }, // Red-orange for temperature
-          { data: values2, label: 'Velocidad viento (km/h)', showMark: false, color: '#64748b' }, // Gray for wind
         ]}
         xAxis={[
           {

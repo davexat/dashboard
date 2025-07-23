@@ -29,17 +29,17 @@ function App() {
     <>
       <Grid container spacing={5} justifyContent="center" alignItems="center">
         {/* Encabezado */}
-        <Grid size={{ xs: 12, md: 12 }} container justifyContent="left" alignItems="center" padding={4} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={2} sx={{ background: "linear-gradient(90deg, #4A7BD3 0%, #3255A2 50%, #1A2C6B 100%)" }}>
+        <Grid size={{ xs: 15, md: 15 }} container justifyContent="left" alignItems="center" padding={4} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={2} sx={{ background: "linear-gradient(90deg, #4A7BD3 0%, #3255A2 50%, #1A2C6B 100%)" }}>
           <HeaderUI />
         </Grid>
 
         {/* Selector de localización */}
-        <Grid size={{ xs: 12, md: 6 }} container alignItems="center" padding={3} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={2} sx={{ background: "#fff" }}>
+        <Grid size={{ xs: 15, md: 6 }} container alignItems="center" padding={3} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={2} sx={{ background: "#fff" }}>
           <LocationSelectorUI onLocationSelect={setCity} />
         </Grid>
 
         {/* Alertas */}
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 15, md: 6 }}>
           {dataFetcherOutput.loading ? (
             <Typography>Cargando alertas...</Typography>
           ) : dataFetcherOutput.error ? (
@@ -50,7 +50,7 @@ function App() {
         </Grid>
 
         {/* Indicadores */}
-        <Grid container size={{ xs: 12, lg: 9 }} alignItems="center" justifyContent="center">
+        <Grid container size={{ xs: 15, lg: 6 }} alignItems="center" justifyContent="center">
           {dataFetcherOutput.loading && <p>Cargando datos...</p>}
           {dataFetcherOutput.error && <p>Error: {dataFetcherOutput.error}</p>}
           {dataFetcherOutput.data && (
@@ -61,7 +61,7 @@ function App() {
         </Grid>
 
         {/* Gráfico */}
-        <Grid size={{ xs: 12, lg: 6 }}
+        <Grid size={{ xs: 15, lg: 6 }}
           sx={{
             display: { md: 'block' },
           }}>
@@ -70,12 +70,11 @@ function App() {
             error={dataFetcherOutput.error}
             labels={dataFetcherOutput.data?.hourly.time ?? []}
             values1={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
-            values2={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
           />
         </Grid>
 
         {/* Gráfico de Temperatura Diaria (Nuevo) */}
-        <Grid size={{ xs: 12, lg: 6 }}
+        <Grid size={{ xs: 15, lg: 6 }}
           sx={{
             display: { md: 'block' },
           }}>
@@ -89,7 +88,7 @@ function App() {
         </Grid>
 
         {/* Gráfico de Velocidad del Viento Horaria (Nuevo) */}
-        <Grid size={{ xs: 12, lg: 6 }}
+        <Grid size={{ xs: 15, lg: 6 }}
           sx={{
             display: { md: 'block' },
           }}>
@@ -102,7 +101,7 @@ function App() {
         </Grid>
 
         {/* Tabla */}
-        <Grid size={{ xs: 8, lg: 6 }}
+        <Grid size={{ xs: 15, lg: 6 }}
           sx={{
             display: { md: 'block' }
           }}>
@@ -116,7 +115,7 @@ function App() {
         </Grid>
 
         {/* Información adicional */}
-        <Grid size={{ xs: 12, md: 12 }}>
+        <Grid size={{ xs: 15, md: 15 }}>
           <CohereAssistantUI
             weatherData={dataFetcherOutput.data?.current}
             weatherInfo={dataFetcherOutput.data?.hourly}

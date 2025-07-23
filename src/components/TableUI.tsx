@@ -1,6 +1,16 @@
-import Box from '@mui/material/Box';
-import { DataGrid, type GridColDef } from '@mui/x-data-grid';
-import Typography from '@mui/material/Typography';
+import { 
+  Box, 
+  Paper, 
+  Typography, 
+  Table, 
+  TableHead, 
+  TableBody, 
+  TableRow, 
+  TableCell, 
+  Chip,
+  TableContainer
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 interface TableUIProps {
   loading: boolean;
@@ -10,112 +20,131 @@ interface TableUIProps {
   values2: number[];
 }
 
-function combineArrays(arrLabels: Array<string>, arrValues1: Array<number>, arrValues2: Array<number>) {
-  return arrLabels.map((label, index) => ({
-    id: index,
-    label: label,
-    value1: arrValues1[index],
-    value2: arrValues2[index]
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+  borderRadius: '12px',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+  border: '1px solid #f0f0f0',
+  overflow: 'hidden',
+}));
+
+const StyledTableHead = styled(TableHead)(({ theme }) => ({
+  backgroundColor: '#f8fafc',
+  '& .MuiTableCell-head': {
+    fontWeight: 600,
+    color: '#374151',
+    borderBottom: '1px solid #e5e7eb',
+    padding: '16px 12px',
+    fontSize: '0.875rem',
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:hover': {
+    backgroundColor: '#f9fafb',
+  },
+  '&:last-child td': {
+    borderBottom: 0,
+  },
+  transition: 'background-color 0.2s ease',
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  borderBottom: '1px solid #f3f4f6',
+  padding: '12px',
+  fontSize: '0.875rem',
+}));
+
+const TemperatureChip = styled(Chip)(({ theme }) => ({
+  backgroundColor: '#dbeafe',
+  color: '#1e40af',
+  fontWeight: 600,
+  minWidth: '56px',
+  '& .MuiChip-label': {
+    padding: '4px 8px',
+  },
+}));
+
+function prepareTableData(labels: string[], values1: number[], values2: number[]) {
+  // Tomar solo las primeras 12 horas como en el diseño de referencia
+  return labels.slice(0, 12).map((label, index) => ({
+    time: new Date(label).toLocaleTimeString('es-ES', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false 
+    }),
+    temperature: values1[index]?.toFixed(1) || '0.0',
+    windSpeed: values2[index]?.toFixed(1) || '0.0',
   }));
 }
 
-const columns: GridColDef[] = [
-  {
-    field: 'label',
-    headerName: 'Fecha y Hora', // Changed header name to reflect full date and time
-    width: 200, // Increased width to accommodate full date and time
-    headerAlign: 'left',
-    align: 'left',
-    sortable: false,
-    disableColumnMenu: true,
-    valueFormatter: (params) => {
-      const dateTime = new Date(params);
-      const year = dateTime.getFullYear();
-      const month = String(dateTime.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
-      const day = String(dateTime.getDate()).padStart(2, '0');
-      const hours = String(dateTime.getHours()).padStart(2, '0');
-      const minutes = String(dateTime.getMinutes()).padStart(2, '0');
-      return `${year}-${month}-${day} ${hours}:${minutes}`; // Format as YYYY-MM-DD HH:MM
-    }
-  },
-  {
-    field: 'value1',
-    headerName: 'Temperatura (°C)',
-    width: 180,
-    headerAlign: 'left',
-    align: 'left',
-    sortable: false,
-    disableColumnMenu: true,
-  },
-  {
-    field: 'value2',
-    headerName: 'Velocidad viento (km/h)',
-    width: 200,
-    headerAlign: 'left',
-    align: 'left',
-    sortable: false,
-    disableColumnMenu: true,
-  },
-];
-
 export default function TableUI({ loading, error, labels, values1, values2 }: TableUIProps) {
-  if (loading) return <Typography>Cargando tabla...</Typography>;
-  if (error) return <Typography color="error">Error: {error}</Typography>;
-  if (!labels.length || !values1.length || !values2.length) return <Typography>No hay datos para mostrar.</Typography>;
+  if (loading) {
+    return (
+      <Paper sx={{ p: 3, borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
+        <Typography>Cargando tabla...</Typography>
+      </Paper>
+    );
+  }
+  
+  if (error) {
+    return (
+      <Paper sx={{ p: 3, borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
+        <Typography color="error">Error: {error}</Typography>
+      </Paper>
+    );
+  }
+  
+  if (!labels.length || !values1.length || !values2.length) {
+    return (
+      <Paper sx={{ p: 3, borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
+        <Typography>No hay datos para mostrar.</Typography>
+      </Paper>
+    );
+  }
 
-  const rows = combineArrays(labels, values1, values2);
+  const tableData = prepareTableData(labels, values1, values2);
 
   return (
-    <Box sx={{
-      height: 400,
-      width: '100%',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.08)', // Subtle shadow
-      '.MuiDataGrid-root': {
-        border: 'none',
-        boxShadow: 'none',
-        borderRadius: 2,
-        background: '#fff',
-      },
-      '.MuiDataGrid-columnHeaders': {
-        backgroundColor: '#f8f8f8',
-        borderBottom: '1px solid #e0e0e0',
-        borderRadius: '8px 8px 0 0',
-        borderTop: 'none',
-      },
-      '.MuiDataGrid-columnHeaderTitle': {
-        fontWeight: 600,
-        color: '#333',
-      },
-      '.MuiDataGrid-cell': {
-        borderBottom: '1px solid #f0f0f0',
-        paddingY: '8px',
-      },
-      '.MuiDataGrid-row': {
-        '&:last-child .MuiDataGrid-cell': {
-          borderBottom: 'none',
-        },
-        '&:hover': {
-          backgroundColor: '#f5f5f5',
-        },
-      },
-      '.MuiDataGrid-footerContainer': {
-        display: 'none',
-      },
-      // Remove the ID column visually
-      '.MuiDataGrid-columnHeader:first-of-type, .MuiDataGrid-cell:first-of-type': {
-        visibility: 'hidden',
-        width: '0px !important',
-        maxWidth: '0px !important',
-        minWidth: '0px !important',
-      },
-    }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableRowSelectionOnClick
-        hideFooter
-        rowHeight={48}
-      />
-    </Box>
+    <Paper sx={{ borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.08)', overflow: 'hidden' }}>
+      <Box sx={{ p: 3, pb: 2 }}>
+        <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: '#111827', mb: 0 }}>
+          Pronóstico por Horas
+        </Typography>
+      </Box>
+      
+      <StyledTableContainer>
+        <Table size="small">
+          <StyledTableHead>
+            <TableRow>
+              <TableCell align="center">Hora</TableCell>
+              <TableCell align="center">Temperatura</TableCell>
+              <TableCell align="center">Viento</TableCell>
+            </TableRow>
+          </StyledTableHead>
+          <TableBody>
+            {tableData.map((row, index) => (
+              <StyledTableRow key={index}>
+                <StyledTableCell align="center">
+                  <Typography sx={{ fontWeight: 500, color: '#111827' }}>
+                    {row.time}
+                  </Typography>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <TemperatureChip
+                    label={`${row.temperature}°C`}
+                    size="small"
+                  />
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <Typography sx={{ color: '#6b7280' }}>
+                    {row.windSpeed} km/h
+                  </Typography>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </StyledTableContainer>
+    </Paper>
   );
 }
