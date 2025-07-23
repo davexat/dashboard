@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getCohereWeatherResponse } from "../functions/coherenceAssistant";
+import { Box, Typography, CircularProgress, Button, TextField } from '@mui/material';
+import { Bot, MessageSquareText } from 'lucide-react';
 
 interface WeatherAssistantProps {
   weatherData: any;
@@ -45,53 +47,111 @@ Basado en estos datos, responde de forma amigable y clara.
   };
 
   return (
-    <div className="max-w-3xl min-w-2xl mx-auto mt-10 px-6 ">
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md transition-all duration-300">
-        <div className="flex items-center gap-3 mb-4">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-            Asistente del Clima
-          </h2>
-        </div>
+    <Box
+      sx={{
+        maxWidth: { xs: '100%', md: '900px' }, // Adjust max-width for responsiveness
+        mx: 'auto', // Center the box
+        mt: 4, // Top margin
+        px: 3, // Horizontal padding
+        py: 3, // Vertical padding
+        background: '#ffffff', // White background
+        borderRadius: 3, // Rounded corners
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)', // Subtle shadow
+        transition: 'all 0.3s ease-in-out', // Smooth transitions
+        '&:hover': {
+          boxShadow: '0 6px 16px rgba(0,0,0,0.15)', // Slightly more pronounced shadow on hover
+        },
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+        <Bot size={28} color="#4A7BD3" /> {/* An icon for the assistant */}
+        <Typography variant="h5" component="h2" sx={{
+          fontWeight: 600,
+          color: '#334155', // Darker text for heading
+        }}>
+          Asistente del Clima
+        </Typography>
+      </Box>
 
-        {/* Input y botón */}
-        <div className="flex gap-2 mb-4">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="¿Cómo estará el clima mañana?"
-            className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-          />
-          <button
-            onClick={handleAsk}
-            disabled={loading}
-            className={`px-4 py-2 rounded-lg text-white font-medium transition-all ${loading
-                ? "bg-blue-300 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-              }`}
-          >
-            {loading ? "Consultando…" : "Consultar"}
-          </button>
-        </div>
+      {/* Input y botón */}
+      <Box sx={{ display: 'flex', gap: 2, mb: 3, flexDirection: { xs: 'column', sm: 'row' } }}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="¿Cómo estará el clima mañana?"
+          disabled={loading}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 2,
+              backgroundColor: '#f8fafc', // Light background for input
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#cbd5e1', // Light gray border
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#94a3b8', // Slightly darker border on hover
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#4A7BD3', // Blue focus border
+              borderWidth: '2px',
+            },
+          }}
+        />
+        <Button
+          variant="contained"
+          onClick={handleAsk}
+          disabled={loading}
+          sx={{
+            px: 3, // Padding horizontal
+            py: 1.5, // Padding vertical
+            borderRadius: 2,
+            minWidth: { xs: 'auto', sm: '120px' }, // Responsive width for button
+            backgroundColor: loading ? '#91a7e2' : '#4A7BD3', // Blue color, lighter when disabled
+            '&:hover': {
+              backgroundColor: '#3255A2', // Darker blue on hover
+            },
+            '&.Mui-disabled': {
+              backgroundColor: '#91a7e2', // Lighter blue for disabled state
+              color: '#ffffff', // White text
+            }
+          }}
+        >
+          {loading ? <CircularProgress size={24} color="inherit" /> : "Consultar"}
+        </Button>
+      </Box>
 
-        {/* Respuesta */}
-        {response && (
-          <div className="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 p-4 rounded-lg text-sm text-blue-900 dark:text-blue-100 transition-all">
-            <p className="font-semibold mb-1">Respuesta:</p>
-            <div className="whitespace-pre-line">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown>
-            </div>
-          </div>
-        )}
+      {/* Respuesta */}
+      {response && (
+        <Box
+          sx={{
+            background: '#e0f2f7', // Light blue background
+            border: '1px solid #b2ebf2', // Blue border
+            p: 3, // Padding
+            borderRadius: 2, // Rounded corners
+            fontSize: '0.9rem',
+            color: '#01579b', // Dark blue text
+            transition: 'all 0.3s ease-in-out',
+          }}
+        >
+          <Typography variant="subtitle1" component="p" sx={{ fontWeight: 600, mb: 1 }}>
+            <MessageSquareText size={18} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+            Respuesta:
+          </Typography>
+          <Typography component="div" sx={{ whiteSpace: 'pre-line' }}>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown>
+          </Typography>
+        </Box>
+      )}
 
-        {/* Error */}
-        {error && (
-          <div className="text-red-600 dark:text-red-400 mt-4 text-sm">
-            {error}
-          </div>
-        )}
-      </div>
-    </div>
+      {/* Error */}
+      {error && (
+        <Typography variant="body2" color="error" sx={{ mt: 3 }}>
+          {error}
+        </Typography>
+      )}
+    </Box>
   );
 };
 
