@@ -1,4 +1,16 @@
-import { CloudRain, Wind, Sun, ThermometerSnowflake, ThermometerSun } from 'lucide-react'
+import { 
+    CloudRain, 
+    Wind, 
+    Sun, 
+    ThermometerSnowflake, 
+    ThermometerSun, 
+    Zap, 
+    CloudFog, 
+    CloudHail, 
+    Snowflake, 
+    Droplet, 
+    AlertTriangle 
+} from 'lucide-react'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
@@ -40,6 +52,76 @@ function AlertTemplate(alert: AlertTemplateProps) {
             </Box>
         </Box>
     );
+}
+
+const thunderstormAlert: AlertTemplateProps = {
+    icon: <Zap size={24} color='#facc15' />, // amarillo
+    title: "Tormenta eléctrica",
+    text: "Se esperan tormentas eléctricas en la zona. Permanezca en interiores y evite actividades al aire libre.",
+    borderColor: '#fde68a',
+    backgroundColor: '#fef9c3',
+    titleColor: '#b45309',
+    textColor: '#92400e'
+}
+
+const fogAlert: AlertTemplateProps = {
+    icon: <CloudFog size={24} color='#64748b' />,
+    title: "Niebla densa",
+    text: "La visibilidad es reducida por niebla. Extreme precauciones al conducir y evite actividades al aire libre si es posible.",
+    borderColor: '#cbd5e1',
+    backgroundColor: '#f1f5f9',
+    titleColor: '#334155',
+    textColor: '#334155'
+}
+
+const hailAlert: AlertTemplateProps = {
+    icon: <CloudHail size={24} color='#38bdf8' />,
+    title: "Granizo",
+    text: "Se prevé caída de granizo. Proteja vehículos y objetos sensibles en el exterior.",
+    borderColor: '#bae6fd',
+    backgroundColor: '#f0f9ff',
+    titleColor: '#0369a1',
+    textColor: '#0e7490'
+}
+
+const snowAlert: AlertTemplateProps = {
+    icon: <Snowflake size={24} color='#60a5fa' />,
+    title: "Nevada intensa",
+    text: "Se pronostica una nevada significativa. Tome precauciones al conducir y manténgase informado.",
+    borderColor: '#bae6fd',
+    backgroundColor: '#f0f9ff',
+    titleColor: '#0369a1',
+    textColor: '#0e7490'
+}
+
+const frostAlert: AlertTemplateProps = {
+    icon: <ThermometerSnowflake size={24} color='#38bdf8' />,
+    title: "Helada",
+    text: "Se esperan heladas durante la noche. Proteja plantas y tuberías expuestas.",
+    borderColor: '#bae6fd',
+    backgroundColor: '#f0f9ff',
+    titleColor: '#0369a1',
+    textColor: '#0e7490'
+}
+
+const lowHumidityAlert: AlertTemplateProps = {
+    icon: <Droplet size={24} color='#0ea5e9' />,
+    title: "Baja humedad",
+    text: "El ambiente es muy seco. Aumenta el riesgo de incendios y puede afectar la salud respiratoria.",
+    borderColor: '#bae6fd',
+    backgroundColor: '#f0f9ff',
+    titleColor: '#0369a1',
+    textColor: '#0e7490'
+}
+
+const highPrecipitationProbAlert: AlertTemplateProps = {
+    icon: <AlertTriangle size={24} color='#f59e42' />,
+    title: "Alta probabilidad de lluvia",
+    text: "Hay alta probabilidad de precipitaciones. Prepárese para posibles lluvias.",
+    borderColor: '#fef3c7',
+    backgroundColor: '#fffbeb',
+    titleColor: '#92400e',
+    textColor: '#92400e'
 }
 
 const rainAlert: AlertTemplateProps = {
@@ -95,6 +177,13 @@ const ltAlert: AlertTemplateProps = {
 export default function AlertUI() {
     return (
         <Box sx={{display: 'flex', flexDirection: 'column', gap: 1.5}}>
+            <AlertTemplate {...thunderstormAlert}/>
+            <AlertTemplate {...fogAlert}/>
+            <AlertTemplate {...hailAlert}/>
+            <AlertTemplate {...snowAlert}/>
+            <AlertTemplate {...frostAlert}/>
+            <AlertTemplate {...lowHumidityAlert}/>
+            <AlertTemplate {...highPrecipitationProbAlert}/>
             <AlertTemplate {...uvAlert}/>
             <AlertTemplate {...rainAlert}/>
             <AlertTemplate {...windAlert}/>

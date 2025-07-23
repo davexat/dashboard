@@ -10,7 +10,6 @@ interface ChartUIProps {
 }
 
 export default function ChartUI({ loading, error, labels, values1, values2 }: ChartUIProps) {
-
   if (loading) return <Typography>Cargando gráfico...</Typography>;
   if (error) return <Typography color="error">Error: {error}</Typography>;
   if (!labels.length || !values1.length || !values2.length) return <Typography>No hay datos para mostrar.</Typography>;
