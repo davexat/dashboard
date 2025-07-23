@@ -33,15 +33,20 @@ function App() {
           <HeaderUI />
         </Grid>
 
-        {/* Alertas */}
-        <Grid size={{ xs: 12, md: 6 }} spacing={1} container alignItems="center">
-          <Typography variant='h4' component='h1'>Alertas</Typography>
-          <AlertUI />
-        </Grid>
-
         {/* Selector de localización */}
         <Grid size={{ xs: 12, md: 6 }} container alignItems="center" padding={3} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={2} sx={{ background: "#fff" }}>
           <LocationSelectorUI onLocationSelect={setCity} />
+        </Grid>
+
+        {/* Alertas */}
+        <Grid size={{ xs: 12, md: 6 }}>
+          {dataFetcherOutput.loading ? (
+            <Typography>Cargando alertas...</Typography>
+          ) : dataFetcherOutput.error ? (
+            <Typography color="error">Error al cargar alertas: {dataFetcherOutput.error}</Typography>
+          ) : (
+            <AlertUI data={dataFetcherOutput.data} />
+          )}
         </Grid>
 
         {/* Indicadores */}

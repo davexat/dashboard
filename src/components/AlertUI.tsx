@@ -13,6 +13,8 @@ import {
 } from 'lucide-react'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import React from 'react';
+import type { OpenMeteoResponse } from '../types/DashboardTypes';
 
 interface AlertTemplateProps {
     icon: React.ReactNode;
@@ -174,21 +176,97 @@ const ltAlert: AlertTemplateProps = {
     textColor: '#0e7490'
 }
 
-export default function AlertUI() {
+const AlertUI: React.FC<{ data: OpenMeteoResponse | null }> = ({ data }) => {
+    if (!data) return null;
+
+    const alertsToDisplay: AlertTemplateProps[] = [];
+    const currentWeather = data.current;
+    const todayDaily = data.daily;
+
+    // Find the index of the current time in the hourly data
+    const currentHourIndex = data.hourly.time.findIndex(time =>
+        new Date(time).getHours() === new Date(currentWeather.time).getHours() &&
+        new Date(time).getDate() === new Date(currentWeather.time).getDate()
+    );
+
+    // Use current weather data for current conditions where available
+    const currentTemp = currentWeather.temperature_2m;
+    const currentWindSpeed = currentWeather.wind_speed_10m;
+    const currentRelativeHumidity = currentWeather.relative_humidity_2m;
+    
+    // Get weather_code from hourly data using the found index
+    const currentWeatherCode = currentHourIndex !== -1 ? data.hourly.weather_code[currentHourIndex] : undefined;
+
+
+    // Current weather alerts
+    if (currentTemp > 30) {
+        alertsToDisplay.push(htAlert);
+    } else if (currentTemp < 5) {
+        alertsToDisplay.push(ltAlert);
+    }
+
+    if (currentWindSpeed > 40) { // Example threshold for strong winds (e.g., > 40 km/h)
+        alertsToDisplay.push(windAlert);
+    }
+
+    if (currentRelativeHumidity < 30) { // Example threshold for low humidity
+        alertsToDisplay.push(lowHumidityAlert);
+    }
+
+    // Daily alerts
+    if (todayDaily.uv_index_max[0] > 7) { // Example threshold for extreme UV
+        alertsToDisplay.push(uvAlert);
+    }
+
+    if (todayDaily.precipitation_probability_max[0] > 70) { // Example threshold for high precipitation probability
+        alertsToDisplay.push(highPrecipitationProbAlert);
+    }
+
+    // Weather code based alerts (using WMO Weather interpretation codes)
+    // This is a simplified example, you might want a more detailed mapping.
+    if (currentWeatherCode !== undefined) { // Only check if weatherCode is available
+        const weatherCode = currentWeatherCode;
+        if (weatherCode >= 95 && weatherCode <= 99) { // Thunderstorm codes
+            alertsToDisplay.push(thunderstormAlert);
+        } else if (weatherCode >= 45 && weatherCode <= 48) { // Fog codes
+            alertsToDisplay.push(fogAlert);
+        } else if (weatherCode >= 66 && weatherCode <= 67) { // Freezing Rain
+            alertsToDisplay.push(hailAlert); // Using hail alert as a proxy, or create a specific freezing rain alert
+        } else if (weatherCode >= 71 && weatherCode <= 75) { // Snow fall
+            alertsToDisplay.push(snowAlert);
+        } else if (weatherCode === 3) { // Fog
+            alertsToDisplay.push(fogAlert);
+        } else if (weatherCode >= 85 && weatherCode <= 86) { // Snow showers
+            alertsToDisplay.push(snowAlert);
+        } else if (weatherCode >= 20 && weatherCode <= 29) { // Thunderstorm
+            alertsToDisplay.push(thunderstormAlert);
+        }
+    }
+
+
+    if (alertsToDisplay.length === 0) {
+        return (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                <AlertTemplate
+                    icon={<AlertTriangle size={24} color='#334155' />}
+                    title="Sin alertas activas"
+                    text="No se han detectado alertas meteorológicas para esta ubicación en este momento."
+                    borderColor='#e2e8f0'
+                    backgroundColor='#f8fafc'
+                    titleColor='#334155'
+                    textColor='#334155'
+                />
+            </Box>
+        );
+    }
+
     return (
-        <Box sx={{display: 'flex', flexDirection: 'column', gap: 1.5}}>
-            <AlertTemplate {...thunderstormAlert}/>
-            <AlertTemplate {...fogAlert}/>
-            <AlertTemplate {...hailAlert}/>
-            <AlertTemplate {...snowAlert}/>
-            <AlertTemplate {...frostAlert}/>
-            <AlertTemplate {...lowHumidityAlert}/>
-            <AlertTemplate {...highPrecipitationProbAlert}/>
-            <AlertTemplate {...uvAlert}/>
-            <AlertTemplate {...rainAlert}/>
-            <AlertTemplate {...windAlert}/>
-            <AlertTemplate {...htAlert}/>
-            <AlertTemplate {...ltAlert}/>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+            {alertsToDisplay.map((alert, index) => (
+                <AlertTemplate key={index} {...alert} />
+            ))}
         </Box>
-    )
+    );
 }
+
+export default AlertUI;
