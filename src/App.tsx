@@ -10,7 +10,7 @@ import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
 import CohereAssistantUI from './components/WeatherAssistantUI';
 import type { Location } from './types/DashboardTypes';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export const DEFAULT_LOCATION: Location = {
   name: 'Guayaquil',
