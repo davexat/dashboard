@@ -111,6 +111,8 @@ function App() {
             labels={dataFetcherOutput.data?.hourly.time ?? []}
             values1={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
             values2={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
+            humidity={dataFetcherOutput.data?.hourly.relative_humidity_2m ?? []}
+            weatherCodes={dataFetcherOutput.data?.hourly.weather_code ?? []}
           />
         </Grid>
 

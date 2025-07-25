@@ -1,16 +1,15 @@
-import { 
-  Box, 
-  Paper, 
-  Typography, 
-  Table, 
-  TableHead, 
-  TableBody, 
-  TableRow, 
-  TableCell, 
-  Chip,
-  TableContainer
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+
+// Función para traducir weather_code a descripción textual (simplificada)
+function getWeatherDescription(code: number): string {
+  if ([0, 1, 2].includes(code)) return 'Despejado';
+  if ([45, 48, 3].includes(code)) return 'Niebla';
+  if ((code >= 51 && code <= 67) || (code >= 61 && code <= 65)) return 'Lluvia';
+  if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return 'Nieve';
+  if ((code >= 80 && code <= 82)) return 'Chubascos';
+  if ((code >= 95 && code <= 99) || (code >= 20 && code <= 29)) return 'Tormenta';
+  return 'Desconocido';
+}
 
 interface TableUIProps {
   loading: boolean;
@@ -18,133 +17,74 @@ interface TableUIProps {
   labels: string[];
   values1: number[];
   values2: number[];
+  humidity?: number[];
+  weatherCodes?: number[];
 }
 
-const StyledTableContainer = styled(TableContainer)(() => ({
-  borderRadius: '12px',
-  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-  border: '1px solid #f0f0f0',
-  overflow: 'hidden',
-}));
+const TableUI = ({ loading, error, labels, values1, values2, humidity = [], weatherCodes = [] }: TableUIProps) => {
+  if (loading) return <Typography>Cargando tabla...</Typography>;
+  if (error) return <Typography color="error">Error: {error}</Typography>;
+  if (!labels.length || !values1.length || !values2.length || !humidity.length || !weatherCodes.length) {
+    return <Typography>No hay datos para mostrar.</Typography>;
+  }
 
-const StyledTableHead = styled(TableHead)(() => ({
-  backgroundColor: '#f8fafc',
-  '& .MuiTableCell-head': {
-    fontWeight: 600,
-    color: '#374151',
-    borderBottom: '1px solid #e5e7eb',
-    padding: '16px 12px',
-    fontSize: '0.875rem',
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(() => ({
-  '&:hover': {
-    backgroundColor: '#f9fafb',
-  },
-  '&:last-child td': {
-    borderBottom: 0,
-  },
-  transition: 'background-color 0.2s ease',
-}));
-
-const StyledTableCell = styled(TableCell)(() => ({
-  borderBottom: '1px solid #f3f4f6',
-  padding: '12px',
-  fontSize: '0.875rem',
-}));
-
-const TemperatureChip = styled(Chip)(() => ({
-  backgroundColor: '#dbeafe',
-  color: '#1e40af',
-  fontWeight: 600,
-  minWidth: '56px',
-  '& .MuiChip-label': {
-    padding: '4px 8px',
-  },
-}));
-
-function prepareTableData(labels: string[], values1: number[], values2: number[]) {
-  // Tomar solo las primeras 12 horas como en el diseño de referencia
-  return labels.slice(0, 12).map((label, index) => ({
-    time: new Date(label).toLocaleTimeString('es-ES', { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: false 
-    }),
-    temperature: values1[index]?.toFixed(1) || '0.0',
-    windSpeed: values2[index]?.toFixed(1) || '0.0',
+  // Filtrar solo las primeras 12 horas de hoy
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  const indicesToday = labels.map((label, idx) => label.slice(0, 10) === todayStr ? idx : -1).filter(idx => idx !== -1).slice(0, 12);
+  const hourlyData = indicesToday.map(idx => ({
+    time: new Date(labels[idx]).toLocaleTimeString('es-ES', { hour: '2-digit', hour12: true }),
+    temperature: Math.round(values1[idx]),
+    humidity: humidity[idx],
+    windSpeed: values2[idx]?.toFixed(1) || '0.0',
+    condition: getWeatherDescription(weatherCodes[idx]),
   }));
-}
-
-export default function TableUI({ loading, error, labels, values1, values2 }: TableUIProps) {
-  if (loading) {
-    return (
-      <Paper sx={{ p: 3, borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
-        <Typography>Cargando tabla...</Typography>
-      </Paper>
-    );
-  }
-  
-  if (error) {
-    return (
-      <Paper sx={{ p: 3, borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
-        <Typography color="error">Error: {error}</Typography>
-      </Paper>
-    );
-  }
-  
-  if (!labels.length || !values1.length || !values2.length) {
-    return (
-      <Paper sx={{ p: 3, borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
-        <Typography>No hay datos para mostrar.</Typography>
-      </Paper>
-    );
-  }
-
-  const tableData = prepareTableData(labels, values1, values2);
 
   return (
-    <Paper sx={{ borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.08)', overflow: 'hidden' }}>
-      <Box sx={{ p: 3, pb: 2 }}>
-        <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: '#111827', mb: 0 }}>
-          Pronóstico por Horas
-        </Typography>
-      </Box>
-      
-      <StyledTableContainer>
-        <Table size="small">
-          <StyledTableHead>
-            <TableRow>
-              <TableCell align="center">Hora</TableCell>
-              <TableCell align="center">Temperatura</TableCell>
-              <TableCell align="center">Viento</TableCell>
-            </TableRow>
-          </StyledTableHead>
-          <TableBody>
-            {tableData.map((row, index) => (
-              <StyledTableRow key={index}>
-                <StyledTableCell align="center">
-                  <Typography sx={{ fontWeight: 500, color: '#111827' }}>
-                    {row.time}
-                  </Typography>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <TemperatureChip
-                    label={`${row.temperature}°C`}
-                    size="small"
-                  />
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <Typography sx={{ color: '#6b7280' }}>
-                    {row.windSpeed} km/h
-                  </Typography>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </StyledTableContainer>
-    </Paper>
+    <div style={{ background: '#fff', borderRadius: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', padding: '0rem 1.5rem 1.5rem 1.5rem', border: '1px solid #f3f4f6' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#111827', marginBottom: '1rem', textAlign: 'left' }}>Pronóstico por Horas</h2>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', fontSize: '0.875rem', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+              <th style={{ textAlign: 'center', padding: '0.5rem 0.25rem', fontWeight: 600, color: '#374151' }}>Hora</th>
+              <th style={{ textAlign: 'center', padding: '0.5rem 0.25rem', fontWeight: 600, color: '#374151' }}>Temp</th>
+              <th style={{ textAlign: 'center', padding: '0.5rem 0.25rem', fontWeight: 600, color: '#374151' }}>Humedad</th>
+              <th style={{ textAlign: 'center', padding: '0.5rem 0.25rem', fontWeight: 600, color: '#374151' }}>Viento</th>
+              <th style={{ textAlign: 'center', padding: '0.5rem 0.25rem', fontWeight: 600, color: '#374151' }}>Condición</th>
+            </tr>
+          </thead>
+          <tbody>
+            {hourlyData.map((hour, index) => {
+              const isLast = index === hourlyData.length - 1;
+              return (
+                <tr
+                  key={index}
+                  style={{
+                    transition: 'background 0.2s',
+                    cursor: 'pointer',
+                    borderBottom: isLast ? 'none' : '1px solid #e5e7eb'
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = '#f9fafb'}
+                  onMouseLeave={e => e.currentTarget.style.background = ''}
+                >
+                  <td style={{ padding: '0.5rem 0.25rem', fontWeight: 500, color: '#111827' }}>{hour.time}</td>
+                  <td style={{ padding: '0.5rem 0.25rem', textAlign: 'center' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '2.2rem', height: '1.3rem', background: '#dbeafe', color: '#1e40af', borderRadius: '0.375rem', fontWeight: 600, padding: '0.2rem 0.5rem' }}>
+                      {hour.temperature}° C
+                    </span>
+                  </td>
+                  <td style={{ padding: '0.5rem 0.25rem', textAlign: 'center', color: '#4b5563' }}>{hour.humidity}%</td>
+                  <td style={{ padding: '0.5rem 0.25rem', textAlign: 'center', color: '#4b5563' }}>{hour.windSpeed} km/h</td>
+                  <td style={{ padding: '0.5rem 0.25rem', color: '#374151' }}>{hour.condition}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
-}
+};
+
+export default TableUI;
