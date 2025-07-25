@@ -51,6 +51,16 @@ export default function DailyTemperatureChartUI({ loading, error, labels, maxTem
               const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
               return date.toLocaleDateString('es-ES', options);
             },
+            label: 'Fecha', // Etiqueta del eje X
+            labelStyle: { fontSize: 16, fontWeight: 500 },
+          }
+        ]}
+        yAxis={[
+          {
+            min: 0, // El eje Y empieza en 0
+            label: 'Temperatura (°C)', // Etiqueta del eje Y
+            labelStyle: { fontSize: 16, fontWeight: 500 },
+            width: 60,
           }
         ]}
       />

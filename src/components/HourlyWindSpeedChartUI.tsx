@@ -14,53 +14,64 @@ export default function HourlyWindSpeedChartUI({ loading, error, labels, windSpe
   if (error) return <Typography color="error">Error: {error}</Typography>;
   if (!labels.length || !windSpeeds.length) return <Typography>No hay datos de velocidad del viento para mostrar.</Typography>;
 
+  // Filtrar solo datos de hoy
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  const indicesToday = labels.map((label, idx) => label.slice(0, 10) === todayStr ? idx : -1).filter(idx => idx !== -1);
+  const todayLabels = indicesToday.map(idx => labels[idx]);
+  const todayWindSpeeds = indicesToday.map(idx => windSpeeds[idx]);
+
+  // Mostrar ticks dinámicamente: solo algunas horas si hay muchas
+  const tickStep = todayLabels.length > 12 ? Math.ceil(todayLabels.length / 12) : 1;
+
   return (
     <Box
-      sx={{ // Apply consistent styling
-        background: '#ffffff', // White background
-        borderRadius: 3, // Rounded corners
-        boxShadow: '0 4px 12px rgba(0,0,0,0.08)', // Subtle shadow
-        padding: 3, // Padding inside the box
+      sx={{
+        background: '#ffffff',
+        borderRadius: 3,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+        padding: 3,
         transition: 'all 0.3s ease-in-out',
         '&:hover': {
-          boxShadow: '0 6px 16px rgba(0,0,0,0.12)', // Slightly more pronounced shadow on hover
+          boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
         },
       }}
     >
       <Typography variant="h5" component="div" sx={{
-        color: '#334155', // Darker text for heading
+        color: '#334155',
         fontWeight: 600,
-        mb: 2, // Margin bottom for spacing
+        mb: 2,
       }}>
         Velocidad del Viento por Hora
       </Typography>
       <LineChart
         height={300}
         series={[
-          { data: windSpeeds, label: 'Velocidad viento (km/h)', showMark: false, color: '#64748b' }, // Gray for wind
+          { data: todayWindSpeeds, label: 'Velocidad viento (km/h)', showMark: false, color: '#64748b' },
         ]}
         xAxis={[
           {
             scaleType: 'point',
-            data: labels,
-            tickInterval: (value, _) => {
-              // Only show tick if the hour is "00:00"
-              return value.slice(11, 16) === "00:00";
-            },
-            valueFormatter: (v: string, context?: { location?: string }) => {
-              const date = new Date(v);
-              const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
-              const formattedDate = date.toLocaleDateString('es-ES', options); // e.g., "jul 22"
-              const time = v.slice(11, 16); // e.g., "00:00"
-
+            data: todayLabels,
+            tickInterval: (_, idx) => idx % tickStep === 0,
+            valueFormatter: (v, context) => {
+              const time = v.slice(11, 16);
               if (context?.location === 'tooltip') {
-                // For tooltip, show full date and time
-                return `${v.slice(0, 10)} - ${time}`; // e.g., "2024-07-20 - 00:00"
+                return `${v.slice(0, 10)} - ${time}`;
               } else {
-                // For axis tick labels, show day and month if it's midnight, otherwise just time
-                return time === "00:00" ? formattedDate : time; // Only show date for midnight, otherwise just time
+                return time;
               }
-            }
+            },
+            label: 'Hora',
+            labelStyle: { fontSize: 16, fontWeight: 500 },
+          }
+        ]}
+        yAxis={[
+          {
+            min: 0,
+            label: 'Velocidad viento (km/h)',
+            labelStyle: { fontSize: 16, fontWeight: 500 },
+            width: 60,
           }
         ]}
       />
