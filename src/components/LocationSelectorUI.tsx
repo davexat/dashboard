@@ -11,8 +11,8 @@ import Typography from '@mui/material/Typography';
 import type { Location } from '../types/DashboardTypes';
 import LocationFetcher from '../functions/LocationFetcher';
 import { DEFAULT_LOCATION } from '../App';
-import Container from '@mui/material/Container';
 import { InputAdornment } from '@mui/material';
+import Title from './common/Title';
 
 export default function LocationSelectorUI(
     { onLocationSelect }: { onLocationSelect: (location: Location) => void }
@@ -49,14 +49,12 @@ export default function LocationSelectorUI(
     }, [cityInput]);
 
     return (
-        <Container disableGutters sx={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 2, padding: 1 }}>
-            <Container disableGutters sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <div style={{ padding: '1.5rem', width: '100%', background: '#fff', borderRadius: '1rem', boxShadow: '0 0.125rem 0.5rem rgba(0,0,0,0.08)', border: '0.0625rem solid #f3f4f6', boxSizing: 'border-box', display: 'grid', gap: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
                 <MapPin size={22} color='#1e40af' />
-                <Typography variant="h5" component="h6" color='#000' sx={{ textAlign: 'left' }}>
-                    Localización
-                </Typography>
-            </Container>
-            <Container disableGutters sx={{ position: "relative" }}>
+                <Title>Localización</Title>
+            </div>
+            <div style={{ position: "relative" }}>
                 <TextField
                     label="Buscar ubicación"
                     variant="outlined"
@@ -73,12 +71,11 @@ export default function LocationSelectorUI(
                             </InputAdornment>
                         }
                     }}
-                    
                 />
-                {error && (<Container sx={{ color: "error.main", mt: 0 }}>{error}</Container>)}
+                {error && (<div style={{ color: '#ef4444', marginTop: 0 }}>{error}</div>)}
                 {locations && locations.length > 0 && isFocused && (
                     <Paper
-                        sx={{ maxHeight: 200, overflowY: 'auto', position: 'absolute', zIndex: 1, textAlign: 'left', top: 60 }}>
+                        sx={{ maxHeight: '12.5rem', overflowY: 'auto', position: 'absolute', zIndex: 1, textAlign: 'left', top: '3.75rem' }}>
                         <List dense>
                             {locations.map((loc) => (
                                 <ListItem key={`${loc.name}${loc.lat}${loc.lon}`} disablePadding>
@@ -94,24 +91,23 @@ export default function LocationSelectorUI(
                         </List>
                     </Paper>
                 )}
-            </Container>
-            <Container disableGutters sx={{ backgroundColor: '#eff6ff', borderRadius: 1, border: '1px solid #bfdbfe', padding: 2, gap: 1, display: 'flex', flexDirection: 'column' }}>
-                <Container disableGutters sx={{ display: 'flex', gap: 1, justifyContent: 'flex-start' }}>
+            </div>
+            <div style={{ backgroundColor: '#eff6ff', borderRadius: '0.5rem', border: '0.0625rem solid #bfdbfe', padding: '1rem', gap: '0.5rem', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-start' }}>
                     <MapPin size={20} color='#1e40af' />
                     <Typography variant="subtitle1" component="p" color='#1e40af'>
                         Localización actual
                     </Typography>
-                </Container>
-                <Container disableGutters sx={{ textAlign: 'left' }}>
+                </div>
+                <div style={{ textAlign: 'left' }}>
                     <Typography variant="body1" component="p" color='#1e3a8a'>
                         {location.name}, {location.country}
                     </Typography>
                     <Typography variant="subtitle1" component="p" color='#2563eb'>
                         Latitud: {location.lat.toFixed(2)}, Longitud: {location.lon.toFixed(2)}
                     </Typography>
-                </Container>
-            </Container>
-
-        </Container>
+                </div>
+            </div>
+        </div>
     );
 }
