@@ -1,7 +1,6 @@
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import type { DataFetcherOutput } from '../types/Interfaces';
 import { Thermometer, Droplets, Wind, Sun, Sunrise, Sunset } from 'lucide-react';
+import Title from './common/Title';
 
 interface IndicatorUIProps {
     icon: React.ReactNode;
@@ -13,36 +12,40 @@ interface IndicatorUIProps {
 
 function IndicatorTemplate(indicator: IndicatorUIProps) {
     return (
-        <Box
-            sx={{
-                borderRadius: 3,
+        <div
+            style={{
+                borderRadius: 12,
                 border: `2px solid ${indicator.borderColor}`,
                 background: indicator.backgroundColor,
-                p: 2.5,
+                padding: '1.25rem',
                 transition: 'box-shadow 0.2s, transform 0.2s',
-                '&:hover': {
-                    boxShadow: '0 4px 16px 0 rgba(0,0,0,0.10)',
-                    transform: 'scale(1.04)'
-                },
                 display: 'flex',
                 flexDirection: 'column',
-                minWidth: '200px',
-                height: '100%',
                 justifyContent: 'center',
+                boxShadow: undefined,
+                flex: '1 0 225px'
+            }}
+            onMouseEnter={e => {
+                (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px 0 rgba(0,0,0,0.10)';
+                (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.04)';
+            }}
+            onMouseLeave={e => {
+                (e.currentTarget as HTMLDivElement).style.boxShadow = '';
+                (e.currentTarget as HTMLDivElement).style.transform = '';
             }}
         >
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                     {indicator.icon}
-                </Box>
-                <Typography variant='body2' sx={{ color: '#64748b', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' }}>
+                </div>
+                <h4 style={{ color: '#64748b', textTransform: 'uppercase', fontSize: '0.8rem', margin: '0' }}>
                     {indicator.type}
-                </Typography>
-            </Box>
-            <Typography variant='h4' sx={{ color: '#1e293b', fontWeight: 700, textAlign: 'left' }}>
+                </h4>
+            </div>
+            <h2 style={{ color: '#1e293b', fontWeight: 700, textAlign: 'left', fontSize: '1.8rem', margin: '0.8rem 0 0 0' }}>
                 {indicator.indicator}
-            </Typography>
-        </Box>
+            </h2>
+        </div>
     )
 }
 
@@ -50,68 +53,70 @@ export default function IndicatorUI({ data }: { data: DataFetcherOutput }) {
     const temperature = data.data?.current.temperature_2m;
     const humidity = data.data?.current.relative_humidity_2m;
     const wind = data.data?.current.wind_speed_10m;
-
-    // Obtengo el primer valor de daily para los nuevos indicadores
     const uvIndex = data.data?.daily.uv_index_max?.[0];
     const sunrise = data.data?.daily.sunrise?.[0];
     const sunset = data.data?.daily.sunset?.[0];
 
-    const temperatureProps: IndicatorUIProps = {
-        icon: <Thermometer size={32} color="#ef4444" />,
-        type: 'Temperatura',
-        indicator: (temperature !== undefined && temperature !== null ? temperature.toString() : "N/A") + "°C",
-        borderColor: "#fecaca",
-        backgroundColor: "#fef2f2",
-    };
-
-    const humidityProps: IndicatorUIProps = {
-        icon: <Droplets size={32} color="#3b82f6" />,
-        type: 'Humedad',
-        indicator: (humidity !== undefined && humidity !== null ? humidity.toString() : "N/A") + "%",
-        borderColor: "#bae6fd",
-        backgroundColor: "#f0f9ff",
-    };
-
-    const windProps: IndicatorUIProps = {
-        icon: <Wind size={32} color="#22c55e" />,
-        type: 'Viento',
-        indicator: (wind !== undefined && wind !== null ? wind.toFixed(1) : "N/A") + " km/h",
-        borderColor: "#bbf7d0",
-        backgroundColor: "#f0fdf4",
-    };
-
-    const uvProps: IndicatorUIProps = {
-        icon: <Sun size={32} color="#f59e42" />,
-        type: 'Índice UV',
-        indicator: (uvIndex !== undefined && uvIndex !== null ? uvIndex.toString() : "N/A"),
-        borderColor: "#fed7aa",
-        backgroundColor: "#fff7ed",
-    };
-
-    const sunriseProps: IndicatorUIProps = {
-        icon: <Sunrise size={32} color="#fbbf24" />,
-        type: 'Amanecer',
-        indicator: sunrise ? sunrise.slice(11, 16) : "N/A", // Extrae HH:MM
-        borderColor: "#fde68a",
-        backgroundColor: "#fef9c3",
-    };
-
-    const sunsetProps: IndicatorUIProps = {
-        icon: <Sunset size={32} color="#f87171" />,
-        type: 'Atardecer',
-        indicator: sunset ? sunset.slice(11, 16) : "N/A", // Extrae HH:MM
-        borderColor: "#fca5a5",
-        backgroundColor: "#fef2f2",
-    };
+    const indicatorProps: IndicatorUIProps[] = [
+        {
+            icon: <Thermometer size={32} color="#ef4444" />,
+            type: 'Temperatura',
+            indicator: (temperature !== undefined && temperature !== null ? temperature.toString() : "N/A") + "°C",
+            borderColor: "#fecaca",
+            backgroundColor: "#fef2f2",
+        },
+        {
+            icon: <Droplets size={32} color="#3b82f6" />,
+            type: 'Humedad',
+            indicator: (humidity !== undefined && humidity !== null ? humidity.toString() : "N/A") + "%",
+            borderColor: "#bae6fd",
+            backgroundColor: "#f0f9ff",
+        },
+        {
+            icon: <Wind size={32} color="#22c55e" />,
+            type: 'Viento',
+            indicator: (wind !== undefined && wind !== null ? wind.toFixed(1) : "N/A") + " km/h",
+            borderColor: "#bbf7d0",
+            backgroundColor: "#f0fdf4",
+        },
+        {
+            icon: <Sun size={32} color="#f59e42" />,
+            type: 'Índice UV',
+            indicator: (uvIndex !== undefined && uvIndex !== null ? uvIndex.toString() : "N/A"),
+            borderColor: "#fed7aa",
+            backgroundColor: "#fff7ed",
+        },
+        {
+            icon: <Sunrise size={32} color="#fbbf24" />,
+            type: 'Amanecer',
+            indicator: sunrise ? sunrise.slice(11, 16) : "N/A",
+            borderColor: "#fde68a",
+            backgroundColor: "#fbfae3",
+        },
+        {
+            icon: <Sunset size={32} color="#717af8" />,
+            type: 'Atardecer',
+            indicator: sunset ? sunset.slice(11, 16) : "N/A",
+            borderColor: "#b5a5fc",
+            backgroundColor: "#f2f2fe",
+        },
+    ];
 
     return (
-        <>
-            <IndicatorTemplate {...temperatureProps} />
-            <IndicatorTemplate {...humidityProps} />
-            <IndicatorTemplate {...windProps} />
-            <IndicatorTemplate {...uvProps} />
-            <IndicatorTemplate {...sunriseProps} />
-            <IndicatorTemplate {...sunsetProps} />
-        </>
+        <div style={{ padding: '1.5rem', width: '100%', background: '#fff', borderRadius: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', border: '1px solid #f3f4f6', boxSizing: 'border-box', overflow: 'hidden' }}>
+            <Title children='Condiciones Actuales' />
+            <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '1rem',
+                width: '100%',
+                boxSizing: 'border-box',
+                maxWidth: '100%',
+            }}>
+                {indicatorProps.map((props) => (
+                    <IndicatorTemplate key={props.type} {...props} />
+                ))}
+            </div>
+        </div>
     );
 }
