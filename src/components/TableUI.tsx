@@ -20,14 +20,14 @@ interface TableUIProps {
   values2: number[];
 }
 
-const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+const StyledTableContainer = styled(TableContainer)(() => ({
   borderRadius: '12px',
   boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
   border: '1px solid #f0f0f0',
   overflow: 'hidden',
 }));
 
-const StyledTableHead = styled(TableHead)(({ theme }) => ({
+const StyledTableHead = styled(TableHead)(() => ({
   backgroundColor: '#f8fafc',
   '& .MuiTableCell-head': {
     fontWeight: 600,
@@ -38,7 +38,7 @@ const StyledTableHead = styled(TableHead)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(() => ({
   '&:hover': {
     backgroundColor: '#f9fafb',
   },
@@ -48,13 +48,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   transition: 'background-color 0.2s ease',
 }));
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   borderBottom: '1px solid #f3f4f6',
   padding: '12px',
   fontSize: '0.875rem',
 }));
 
-const TemperatureChip = styled(Chip)(({ theme }) => ({
+const TemperatureChip = styled(Chip)(() => ({
   backgroundColor: '#dbeafe',
   color: '#1e40af',
   fontWeight: 600,

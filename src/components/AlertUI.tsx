@@ -1,8 +1,6 @@
 import { 
-    CloudRain, 
     Wind, 
     Sun, 
-    ThermometerSnowflake, 
     ThermometerSun, 
     Zap, 
     CloudFog, 
@@ -96,16 +94,6 @@ const snowAlert: AlertTemplateProps = {
     textColor: '#0e7490'
 }
 
-const frostAlert: AlertTemplateProps = {
-    icon: <ThermometerSnowflake size={24} color='#38bdf8' />,
-    title: "Helada",
-    text: "Se esperan heladas durante la noche. Proteja plantas y tuberías expuestas.",
-    borderColor: '#bae6fd',
-    backgroundColor: '#f0f9ff',
-    titleColor: '#0369a1',
-    textColor: '#0e7490'
-}
-
 const lowHumidityAlert: AlertTemplateProps = {
     icon: <Droplet size={24} color='#0ea5e9' />,
     title: "Baja humedad",
@@ -124,16 +112,6 @@ const highPrecipitationProbAlert: AlertTemplateProps = {
     backgroundColor: '#fffbeb',
     titleColor: '#92400e',
     textColor: '#92400e'
-}
-
-const rainAlert: AlertTemplateProps = {
-    icon: <CloudRain size={24} color='#2563eb' />,
-    title: "Fuertes lluvias",
-    text: "Se esperan fuertes lluvias. Lleve paraguas y conduzca con precaución.",
-    borderColor: '#93c5fd',
-    backgroundColor: '#dbeafe',
-    titleColor: '#1e40af',
-    textColor: '#1e3a8a'
 }
 
 const uvAlert: AlertTemplateProps = {
@@ -167,7 +145,7 @@ const htAlert: AlertTemplateProps = {
 }
 
 const ltAlert: AlertTemplateProps = {
-    icon: <ThermometerSnowflake size={24} color='#38bdf8' />,
+    icon: <Snowflake size={24} color='#38bdf8' />,
     title: "Baja temperatura",
     text: "Se detectó temperatura extremadamente baja. Abríguese bien y limite la exposición al exterior.",
     borderColor: '#bae6fd',
