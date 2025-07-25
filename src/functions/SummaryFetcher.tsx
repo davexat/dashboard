@@ -11,7 +11,7 @@ interface SummaryFetcherOutput {
 const cohere = new CohereClientV2({});
 
 export default function SummaryFetcher(response: OpenMeteoResponse): SummaryFetcherOutput {
-  const [summary, setSummary] = useState<string>('');
+  const [summary] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +21,7 @@ export default function SummaryFetcher(response: OpenMeteoResponse): SummaryFetc
         setLoading(true);
         setError(null);
 
-        const result = await cohere.chat({
+        await cohere.chat({
           model: 'command-a-03-2025',
           messages: [
             {
