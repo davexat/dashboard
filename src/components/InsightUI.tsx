@@ -75,12 +75,10 @@ export default function InsightUI({ loading, error, data }: DataFetcherOutput) {
 
     let thirdTitle = '';
     let thirdText = '';
-    let thirdColor = '';
     let thirdBg = '';
     if (current.relative_humidity_2m >= 80) {
         thirdTitle = 'Humedad elevada';
         thirdText = `La humedad actual es del ${current.relative_humidity_2m}%, un valor alto para esta época.`;
-        thirdColor = '#38BDF8';
         thirdBg = '#E0F2FE';
     } else {
         const temps = data.daily.temperature_2m_max;
@@ -88,7 +86,6 @@ export default function InsightUI({ loading, error, data }: DataFetcherOutput) {
         const trend = temps[temps.length - 1] > temps[0] ? 'ascendente' : 'descendente';
         thirdTitle = 'Tendencia de temperatura';
         thirdText = `Temperatura media semanal: ${avgTemp.toFixed(1)}°C. La tendencia es ${trend} en los próximos 7 días.`;
-        thirdColor = '#60A5FA';
         thirdBg = '#DBEAFE';
     }
 
