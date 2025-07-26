@@ -5,43 +5,12 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body{
+  background: #F8FDFF;
+  background: linear-gradient(180deg, rgba(248, 253, 255, 1) 0%, rgba(222, 237, 255, 1) 100%);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-/* Scrollbar para DataGrid */
+/*
 .MuiDataGrid-root ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -61,4 +30,4 @@
 
 .MuiDataGrid-root ::-webkit-scrollbar-corner {
   background: #e0e7ef;
-}
+} */

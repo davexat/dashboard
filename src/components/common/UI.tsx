@@ -25,7 +25,6 @@ export function Container({ children, style, className }: CommonProps) {
         borderRadius: '1rem',
         boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
         padding: '1.5rem',
-        border: '1px solid #f3f4f6',
         width: '100%',
         boxSizing: 'border-box',
         ...style
