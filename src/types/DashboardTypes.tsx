@@ -52,6 +52,7 @@ export interface Hourly {
   precipitation: number[];
   rain: number[];
   snowfall: number[];
+  apparent_temperature: number[];
 }
 
 export interface Hourlyunits {
@@ -64,6 +65,7 @@ export interface Hourlyunits {
   precipitation: string;
   rain: string;
   snowfall: string;
+  apparent_temperature: string;
 }
 
 export interface Current {

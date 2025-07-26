@@ -7,6 +7,7 @@ import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
+import { DailyTemperatureChart, PrecipitationBarChart, TodayTemperatureChart } from './components/OtherChartUI';
 import DailyTemperatureChartUI from './components/DailyTemperatureChartUI';
 import HourlyWindSpeedChartUI from './components/HourlyWindSpeedChartUI';
 import CohereAssistantUI from './components/WeatherAssistantUI';
@@ -34,8 +35,16 @@ function App() {
         </Grid>
 
         {/* Selector de localización */}
-        <Grid size={{ xs: 15, md: 6 }} container alignItems="center" padding={3} spacing={2} boxShadow={"0 2px 6px rgba(0,0,0,0.1)"} borderRadius={2} sx={{ background: "#fff" }}>
+        <Grid size={{ xs: 15, md: 6 }}>
           <LocationSelectorUI onLocationSelect={setCity} />
+
+        </Grid>
+
+        {/* Gráfico Nuevo */}
+        <Grid size={{ xs: 15, md: 6 }}>
+          <DailyTemperatureChart data={dataFetcherOutput} />
+          <PrecipitationBarChart data={dataFetcherOutput} />
+          <TodayTemperatureChart data={dataFetcherOutput} />
         </Grid>
 
         {/* Alertas */}

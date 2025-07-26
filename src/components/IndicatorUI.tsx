@@ -1,6 +1,6 @@
 import type { DataFetcherOutput } from '../types/Interfaces';
 import { Thermometer, Droplets, Wind, Sun, Sunrise, Sunset } from 'lucide-react';
-import Title from './common/Title';
+import { Title, Container } from './common/UI';
 
 interface IndicatorUIProps {
     icon: React.ReactNode;
@@ -103,7 +103,7 @@ export default function IndicatorUI({ data }: { data: DataFetcherOutput }) {
     ];
 
     return (
-        <div style={{ padding: '1.5rem', width: '100%', background: '#fff', borderRadius: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', border: '1px solid #f3f4f6', boxSizing: 'border-box', overflow: 'hidden' }}>
+        <Container>
             <Title children='Condiciones Actuales' />
             <div style={{
                 display: 'flex',
@@ -117,6 +117,6 @@ export default function IndicatorUI({ data }: { data: DataFetcherOutput }) {
                     <IndicatorTemplate key={props.type} {...props} />
                 ))}
             </div>
-        </div>
+        </Container>
     );
 }

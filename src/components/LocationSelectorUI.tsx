@@ -12,14 +12,14 @@ import type { Location } from '../types/DashboardTypes';
 import LocationFetcher from '../functions/LocationFetcher';
 import { DEFAULT_LOCATION } from '../App';
 import { InputAdornment } from '@mui/material';
-import Title from './common/Title';
+import { Title, Container } from './common/UI';
 
 export default function LocationSelectorUI(
     { onLocationSelect }: { onLocationSelect: (location: Location) => void }
 ) {
-    const [location, setLocation]   = useState<Location>(DEFAULT_LOCATION);
+    const [location, setLocation] = useState<Location>(DEFAULT_LOCATION);
     const [cityInput, setCityInput] = useState<string>('');
-    const [search, setSearch]       = useState<string>(DEFAULT_LOCATION.name);
+    const [search, setSearch] = useState<string>(DEFAULT_LOCATION.name);
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
     const { locations, loading, error } = LocationFetcher(search);
@@ -49,7 +49,7 @@ export default function LocationSelectorUI(
     }, [cityInput]);
 
     return (
-        <div style={{ padding: '1.5rem', width: '100%', background: '#fff', borderRadius: '1rem', boxShadow: '0 0.125rem 0.5rem rgba(0,0,0,0.08)', border: '0.0625rem solid #f3f4f6', boxSizing: 'border-box', display: 'grid', gap: '1rem' }}>
+        <Container style={{ display: 'grid', gap: '1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
                 <MapPin size={22} color='#1e40af' />
                 <Title>Localización</Title>
@@ -67,7 +67,7 @@ export default function LocationSelectorUI(
                     slotProps={{
                         input: {
                             endAdornment: <InputAdornment position='end'>
-                                {loading && (<CircularProgress size={24}/>)}
+                                {loading && (<CircularProgress size={24} />)}
                             </InputAdornment>
                         }
                     }}
@@ -79,7 +79,7 @@ export default function LocationSelectorUI(
                         <List dense>
                             {locations.map((loc) => (
                                 <ListItem key={`${loc.name}${loc.lat}${loc.lon}`} disablePadding>
-                                    <ListItemButton onClick={() => handleLocationSelect(loc) }>
+                                    <ListItemButton onClick={() => handleLocationSelect(loc)}>
                                         <ListItemText
                                             primary={loc.name}
                                             secondary={`Lat: ${loc.lat}, Lon: ${loc.lon}, Country: ${loc.country}${loc.state ? `, State: ${loc.state}` : ''}`}
@@ -108,6 +108,6 @@ export default function LocationSelectorUI(
                     </Typography>
                 </div>
             </div>
-        </div>
+        </Container>
     );
 }

@@ -17,7 +17,7 @@ export default function DataFetcher(city: Location) : DataFetcherOutput {
         setLoading(true);
         setError(null);
 
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&daily=sunset,sunrise,uv_index_max,weather_code,temperature_2m_max,temperature_2m_min,rain_sum,precipitation_probability_max,wind_speed_10m_max,snowfall_sum&hourly=relative_humidity_2m,temperature_2m,wind_speed_10m,weather_code,precipitation_probability,precipitation,rain,snowfall&current=relative_humidity_2m,temperature_2m,wind_speed_10m,apparent_temperature&timezone=auto`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&daily=sunset,sunrise,uv_index_max,weather_code,temperature_2m_max,temperature_2m_min,rain_sum,precipitation_probability_max,wind_speed_10m_max,snowfall_sum&hourly=relative_humidity_2m,temperature_2m,wind_speed_10m,weather_code,precipitation_probability,precipitation,rain,snowfall,apparent_temperature&current=relative_humidity_2m,temperature_2m,wind_speed_10m,apparent_temperature&timezone=auto`;
 
         const cacheKey: string = getCacheKey(city);
 

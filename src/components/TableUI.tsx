@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import Title from './common/Title';
+import { Title, Container } from './common/UI';
 
 function getWeatherDescription(code: number): string {
   if ([0, 1, 2].includes(code)) return 'Despejado';
@@ -40,7 +40,7 @@ const TableUI = ({ loading, error, labels, values1, values2, humidity = [], weat
   }));
 
   return (
-    <div style={{ background: '#fff', borderRadius: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', padding: '1.5rem 1.5rem 1.5rem 1.5rem', border: '1px solid #f3f4f6' }}>
+    <Container>
       <Title children='Pronóstico por Horas' />
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', fontSize: '0.875rem', borderCollapse: 'collapse' }}>
@@ -82,7 +82,7 @@ const TableUI = ({ loading, error, labels, values1, values2, humidity = [], weat
           </tbody>
         </table>
       </div>
-    </div>
+    </Container>
   );
 };
 
