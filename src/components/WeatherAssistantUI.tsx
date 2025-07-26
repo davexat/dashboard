@@ -89,12 +89,12 @@ Basado en estos datos, responde de forma amigable y clara.
       {response && (
         <Box
           sx={{
-            background: '#e0f2f7',
+            background: '#effafdff',
             border: '1px solid #b2ebf2',
             p: 3,
             borderRadius: 2,
             fontSize: '0.9rem',
-            color: '#01579b',
+            color: '#023f6eff',
             transition: 'all 0.3s ease-in-out',
           }}
         >
@@ -102,7 +102,7 @@ Basado en estos datos, responde de forma amigable y clara.
             <MessageSquareText size={18} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
             Respuesta:
           </Typography>
-          <p style={{ margin: 0, lineHeight: '1.6', color: '#0d47a1', fontSize: '1rem', fontFamily: 'Roboto, Arial, sans-serif', textAlign: 'left' }}>
+          <p style={{ margin: 0, lineHeight: '1.6', fontSize: '1rem', fontFamily: 'Roboto, Arial, sans-serif', textAlign: 'left' }}>
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown>
           </p>
         </Box>
