@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Location, OpenMeteoResponse } from '../types/DashboardTypes';
-import type { DataFetcherOutput } from '../types/Interfaces';
+import type { Location, OpenMeteoResponse, DataFetcherOutput } from '../types/DashboardTypes';
 
 const CACHE_DURATION_MINUTES = 30;
 

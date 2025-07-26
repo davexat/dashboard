@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { getCohereWeatherResponse } from "../functions/coherenceAssistant";
+import { getCohereWeatherResponse } from "../functions/SummaryFetcher";
 import { Box, Typography, CircularProgress, Button, TextField } from '@mui/material';
 import { Bot, MessageSquareText } from 'lucide-react';
 import { Title, Container } from './common/UI';

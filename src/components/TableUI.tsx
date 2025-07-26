@@ -14,21 +14,27 @@ function getWeatherDescription(code: number): string {
 interface TableUIProps {
   loading: boolean;
   error: string | null;
-  labels: string[];
+  date: string[];
   temperature: number[];
   windSpeed: number[];
   humidity: number[];
   weatherCodes: number[];
+  currentTime: string;
 }
 
-const TableUI = ({ loading, error, labels, temperature, windSpeed, humidity, weatherCodes }: TableUIProps) => {
+export default function TableUI({ loading, error, date: labels, temperature, windSpeed, humidity, weatherCodes, currentTime }: TableUIProps) {
   if (loading) return <Typography>Cargando tabla...</Typography>;
   if (error) return <Typography color="error">Error: {error}</Typography>;
 
-  const today = new Date();
-  const todayStr = today.toISOString().slice(0, 10);
-  const indicesToday = labels.map((label, idx) => label.slice(0, 10) === todayStr ? idx : -1).filter(idx => idx !== -1).slice(0, 24);
-  const hourlyData = indicesToday.map(idx => ({
+  const currentDate = new Date(currentTime);
+  const currentIdx = labels.findIndex(label => {
+    const labelDate = new Date(label);
+    return labelDate >= currentDate;
+  });
+  
+  const startIdx = currentIdx !== -1 ? currentIdx : 0;
+  const indicesToShow = Array.from({ length: 12 }, (_, i) => startIdx + i).filter(idx => idx < labels.length);
+  const hourlyData = indicesToShow.map(idx => ({
     time: new Date(labels[idx]).toLocaleTimeString('es-ES', { hour: '2-digit', hour12: true }),
     temperature: Math.round(temperature[idx]),
     humidity: humidity[idx],
@@ -82,5 +88,3 @@ const TableUI = ({ loading, error, labels, temperature, windSpeed, humidity, wea
     </Container>
   );
 };
-
-export default TableUI;

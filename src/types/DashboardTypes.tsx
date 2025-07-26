@@ -1,3 +1,9 @@
+export interface DataFetcherOutput {
+  data: OpenMeteoResponse | null;
+  loading: boolean;
+  error: string | null;
+}
+
 export interface OpenMeteoResponse {
   latitude: number;
   longitude: number;

@@ -1,43 +1,51 @@
-import { useState, useEffect } from 'react';
-import type { OpenMeteoResponse } from '../types/DashboardTypes';
-import { CohereClientV2 } from 'cohere-ai';
+let apiCallCount = 0;
+const MAX_CALLS_PER_MINUTE = 15;
+const COHERE_API_KEY = import.meta.env.VITE_COHERE_API_KEY;
+let lastCallTimestamp = Date.now();
 
-interface SummaryFetcherOutput {
-  summary: string | null;
-  loading: boolean;
-  error: string | null;
-}
+export async function getCohereWeatherResponse(userQuery: string): Promise<string> {
+  const now = Date.now();
 
-const cohere = new CohereClientV2({});
+  if (apiCallCount >= MAX_CALLS_PER_MINUTE && now - lastCallTimestamp < 60000) {
+    throw new Error("Límite de llamadas alcanzado. Intenta en un momento.");
+  }
 
-export default function SummaryFetcher(response: OpenMeteoResponse): SummaryFetcherOutput {
-  const [summary] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  if (now - lastCallTimestamp > 60000) {
+    apiCallCount = 0;
+    lastCallTimestamp = now;
+  }
 
-  useEffect(() => {
-    const fetchSummary = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  apiCallCount++;
 
-        await cohere.chat({
-          model: 'command-a-03-2025',
-          messages: [
-            {
-              role: 'user',
-              content: `Por favor, resume la data: ${JSON.stringify(response)}`,
-            },
-          ],
-        });
+  const response = await fetch("https://api.cohere.com/v2/chat", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${COHERE_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      stream: false,
+      model: "command-a-03-2025",
+      messages: [
+        {
+          role: "user",
+          content: userQuery,
+        },
+      ],
+    }),
+  });
 
-      } catch (err: any) {
-        setError('Error al obtener el resumen.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSummary();
-  }, [response]);
-  return {summary, loading, error};
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Error Cohere: ${response.status} - ${errorText}`);
+  }
+
+  const data = await response.json();
+
+  const content = data.message?.content
+    ?.filter((part: any) => part.type === "text")
+    ?.map((part: any) => part.text)
+    ?.join("\n");
+
+  return content ?? "No se obtuvo respuesta del asistente.";
 }

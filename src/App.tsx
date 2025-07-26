@@ -71,11 +71,12 @@ function App() {
           <TableUI
             loading={dataFetcherOutput.loading}
             error={dataFetcherOutput.error}
-            labels={dataFetcherOutput.data?.hourly.time ?? []}
+            date={dataFetcherOutput.data?.hourly.time ?? []}
             temperature={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
             windSpeed={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
             humidity={dataFetcherOutput.data?.hourly.relative_humidity_2m ?? []}
             weatherCodes={dataFetcherOutput.data?.hourly.weather_code ?? []}
+            currentTime={dataFetcherOutput.data?.current?.time ?? ''}
           />
         </Grid>
 
