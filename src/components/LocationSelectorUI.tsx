@@ -51,7 +51,7 @@ export default function LocationSelectorUI(
     return (
         <Container style={{ display: 'grid', gap: '1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
-                <MapPin size={22} color='#1e40af' />
+                <MapPin size={26} color='#1e40af' />
                 <Title>Localización</Title>
             </div>
             <div style={{ position: "relative" }}>
