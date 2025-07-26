@@ -1,6 +1,73 @@
 import { LineChart, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Line, ResponsiveContainer, Bar } from 'recharts';
 import { Title, Container } from './common/UI';
 
+interface PrecipitationBarChartProps {
+    loading: boolean;
+    error: string | null;
+    rainSum: number[];
+    time: string[];
+}
+
+export function PrecipitationBarChart({ loading, error, rainSum, time }: PrecipitationBarChartProps) {
+    if (loading) {
+        return <div>Cargando datos...</div>;
+    }
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    const precipitation = rainSum || [];
+    const dates = time || [];
+
+    const chartData = dates.map((date, idx) => ({
+        date: new Date(date).toLocaleDateString('es-ES', {
+            month: 'short',
+            day: 'numeric'
+        }),
+        precipitation: precipitation[idx]
+    }));
+
+    if (Math.max(...rainSum) === 0) {
+        return null;
+    }
+
+    return (
+        <Container>
+            <Title>Precipitación Diaria</Title>
+            <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e7ff" />
+                    <XAxis dataKey="date" stroke="#6b7280" fontSize={12} />
+                    <YAxis
+                        stroke="#6b7280"
+                        fontSize={12}
+                        label={{
+                            value: 'Prec. mm',
+                            angle: -90,
+                            position: 'insideLeft',
+                            style: {
+                                fontFamily: 'Roboto, Arial, sans-serif',
+                                fontSize: 18,
+                                fill: '#1e293b',
+                                letterSpacing: '0.5px',
+                            }
+                        }}
+                    />
+                    <Tooltip
+                        contentStyle={{
+                            backgroundColor: '#f8fafc',
+                            border: '1px solid #e2e8f0',
+                            borderRadius: '8px',
+                            color: '#1e293b',
+                        }}
+                    />
+                    <Bar dataKey="precipitation" fill="#38bdf8" name="Precipitación" radius={[4, 4, 0, 0]} />
+                </BarChart>
+            </ResponsiveContainer>
+        </Container>
+    );
+}
+
 interface DailyTemperatureProps {
     loading: boolean;
     error: string | null;
@@ -86,69 +153,6 @@ export function DailyTemperatureChart({ loading, error, maxTemperature, minTempe
     );
 }
 
-interface PrecipitationBarChartProps {
-    loading: boolean;
-    error: string | null;
-    rainSum: number[];
-    time: string[];
-}
-
-export function PrecipitationBarChart({ loading, error, rainSum, time }: PrecipitationBarChartProps) {
-    if (loading) {
-        return <div>Cargando datos...</div>;
-    }
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
-    const precipitation = rainSum || [];
-    const dates = time || [];
-
-    const chartData = dates.map((date, idx) => ({
-        date: new Date(date).toLocaleDateString('es-ES', {
-            month: 'short',
-            day: 'numeric'
-        }),
-        precipitation: precipitation[idx]
-    }));
-
-    return (
-        <Container>
-            <Title>Precipitación Diaria</Title>
-            <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e7ff" />
-                    <XAxis dataKey="date" stroke="#6b7280" fontSize={12} />
-                    <YAxis
-                        stroke="#6b7280"
-                        fontSize={12}
-                        label={{
-                            value: 'Prec. mm',
-                            angle: -90,
-                            position: 'insideLeft',
-                            style: {
-                                fontFamily: 'Roboto, Arial, sans-serif',
-                                fontSize: 18,
-                                fill: '#1e293b',
-                                letterSpacing: '0.5px',
-                            }
-                        }}
-                    />
-                    <Tooltip
-                        contentStyle={{
-                            backgroundColor: '#f8fafc',
-                            border: '1px solid #e2e8f0',
-                            borderRadius: '8px',
-                            color: '#1e293b',
-                        }}
-                    />
-                    <Bar dataKey="precipitation" fill="#38bdf8" name="Precipitación" radius={[4, 4, 0, 0]} />
-                </BarChart>
-            </ResponsiveContainer>
-        </Container>
-    );
-}
-
 interface TodayTemperatureChartProps {
     loading: boolean;
     error: string | null;
@@ -215,8 +219,8 @@ export function TodayTemperatureChart({ loading, error, temperature, apparentTem
                             color: '#1e293b',
                         }}
                     />
-                    <Line type="monotone" dataKey="temperature" name="Temperatura" stroke="#02aff9" />
-                    <Line type="monotone" dataKey="apparent_temperature" name="Temperatura Aparente" stroke="#ff6a00" />
+                    <Line type="monotone" dataKey="temperature" strokeWidth={1.5} name="Temperatura" stroke="#00b3ff" dot={{ fill: '#00b3ff', strokeWidth: 2, r: 3 }} />
+                    <Line type="monotone" dataKey="apparent_temperature" strokeWidth={1.5} name="Temperatura Aparente" stroke="#ff6a00" dot={{ fill: '#ff6a00', strokeWidth: 2, r: 3 }} />
                 </LineChart>
             </ResponsiveContainer>
         </Container>

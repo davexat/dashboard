@@ -5,6 +5,7 @@ import AlertUI from './components/AlertUI';
 import LocationSelectorUI from './components/LocationSelectorUI';
 import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
+import InsightUI from './components/InsightUI';
 import TableUI from './components/TableUI';
 import { DailyTemperatureChart, PrecipitationBarChart, TodayTemperatureChart } from './components/ChartUI';
 import CohereAssistantUI from './components/WeatherAssistantUI';
@@ -22,14 +23,15 @@ export const DEFAULT_LOCATION: Location = {
 function App() {
   const [city, setCity] = useState<Location>(DEFAULT_LOCATION);
   const dataFetcherOutput = DataFetcher(city);
+  const hasPrecipitation = dataFetcherOutput.data?.daily.rain_sum && Math.max(...dataFetcherOutput.data.daily.rain_sum) > 0;
 
   return (
     <>
-      <Grid container spacing={5} justifyContent="center" alignItems="center">
+      <Grid container spacing={4} justifyContent="center" alignItems="flex-start">
         <Grid size={{ xs: 12 }}>
           <HeaderUI />
         </Grid>
-        <Grid size={{ xs: 12, md: 7 }} container spacing={5}>
+        <Grid size={{ xs: 12, md: 7 }} container spacing={4}>
           <LocationSelectorUI onLocationSelect={setCity} />
           <IndicatorUI
             loading={dataFetcherOutput.loading}
@@ -41,12 +43,21 @@ function App() {
             sunrise={dataFetcherOutput.data?.daily?.sunrise[0] ?? '00:00'}
             sunset={dataFetcherOutput.data?.daily?.sunset[0] ?? '00:00'}
           />
-          <PrecipitationBarChart
+          <DailyTemperatureChart
             loading={dataFetcherOutput.loading}
             error={dataFetcherOutput.error}
-            rainSum={dataFetcherOutput.data?.daily.rain_sum ?? []}
-            time={dataFetcherOutput.data?.daily.time ?? []}
+            maxTemperature={dataFetcherOutput.data?.daily.temperature_2m_max ?? []}
+            minTemperature={dataFetcherOutput.data?.daily.temperature_2m_min ?? []}
+            date={dataFetcherOutput.data?.daily.time ?? []}
           />
+          {hasPrecipitation ? (
+            <PrecipitationBarChart
+              loading={dataFetcherOutput.loading}
+              error={dataFetcherOutput.error}
+              rainSum={dataFetcherOutput.data?.daily.rain_sum ?? []}
+              time={dataFetcherOutput.data?.daily.time ?? []}
+            />
+          ) : null}
         </Grid>
 
         <Grid size={{ xs: 12, md: 5 }} container spacing={5}>
@@ -78,18 +89,16 @@ function App() {
             weatherCodes={dataFetcherOutput.data?.hourly.weather_code ?? []}
             currentTime={dataFetcherOutput.data?.current?.time ?? ''}
           />
+          {hasPrecipitation ? (
+            <InsightUI
+              loading={dataFetcherOutput.loading}
+              error={dataFetcherOutput.error}
+              data={dataFetcherOutput.data}
+            />
+          ) : null}
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6 }}>
-          <DailyTemperatureChart
-            loading={dataFetcherOutput.loading}
-            error={dataFetcherOutput.error}
-            maxTemperature={dataFetcherOutput.data?.daily.temperature_2m_max ?? []}
-            minTemperature={dataFetcherOutput.data?.daily.temperature_2m_min ?? []}
-            date={dataFetcherOutput.data?.daily.time ?? []}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, md: hasPrecipitation ? 12 : 6 }}>
           <TodayTemperatureChart
             loading={dataFetcherOutput.loading}
             error={dataFetcherOutput.error}
@@ -97,6 +106,16 @@ function App() {
             apparentTemp={dataFetcherOutput.data?.hourly.apparent_temperature ?? []}
             time={dataFetcherOutput.data?.hourly.time ?? []}
           />
+        </Grid>
+
+        <Grid size={{ xs: 12, md: 6 }}>
+          {hasPrecipitation ? null : (
+            <InsightUI
+              loading={dataFetcherOutput.loading}
+              error={dataFetcherOutput.error}
+              data={dataFetcherOutput.data}
+            />
+          )}
         </Grid>
 
         <Grid size={{ xs: 12 }}>
