@@ -16,18 +16,10 @@ interface AlertTemplateProps {
 
 function AlertTemplate(alert: AlertTemplateProps) {
     return (
-        <Box sx={{
-            gap: 2,
-            borderRadius: 2,
+        <Box className='alertContainer' 
+        sx = {{
             border: `1px solid ${alert.borderColor}`,
             background: alert.backgroundColor,
-            display: 'flex',
-            paddingX: 4,
-            paddingY: 2.5,
-            transition: 'box-shadow 0.2s',
-            '&:hover': {
-                boxShadow: '0 4px 16px 0 rgba(0,0,0,0.15)',
-            }
         }}>
             <Box sx={{ mt: 0.5 }}>
                 {alert.icon}

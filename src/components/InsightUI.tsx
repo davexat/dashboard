@@ -12,18 +12,8 @@ interface InsightTemplateProps {
 
 function InsightTemplate(insight: InsightTemplateProps) {
     return (
-        <Box sx={{
-            gap: 2,
-            borderRadius: 2,
-            border: `1px solid #e3e9f0`,
+        <Box className='insightContainer' sx={{
             background: insight.backgroundColor,
-            display: 'flex',
-            paddingX: 4,
-            paddingY: 2.5,
-            transition: 'box-shadow 0.2s',
-            '&:hover': {
-                boxShadow: '0 4px 16px 0 rgba(0,0,0,0.15)',
-            }
         }}>
             <Box sx={{ mt: 0.5 }}>
                 {insight.icon}
@@ -114,7 +104,7 @@ export default function InsightUI({ loading, error, data }: DataFetcherOutput) {
 
     return (
         <Container container={false}>
-            <Title>Insights del Clima</Title>
+            <Title>Resumen del Clima</Title>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
                 {insightsData.map((insight, idx) => (
                     <InsightTemplate key={idx} {...insight} />

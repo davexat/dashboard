@@ -27,7 +27,7 @@ function App() {
 
   return (
     <>
-      <Grid container spacing={4} justifyContent="center" alignItems="flex-start">
+      <Grid container spacing={4} sx={{ width: '100%' }} justifyContent="center" alignItems="flex-start">
         <Grid size={{ xs: 12 }}>
           <HeaderUI />
         </Grid>
@@ -98,7 +98,7 @@ function App() {
           ) : null}
         </Grid>
 
-        <Grid size={{ xs: 12, md: hasPrecipitation ? 12 : 6 }}>
+        <Grid size={{ xs: 12, md: hasPrecipitation ? 12 : 6 }} container>
           <TodayTemperatureChart
             loading={dataFetcherOutput.loading}
             error={dataFetcherOutput.error}
@@ -109,7 +109,7 @@ function App() {
         </Grid>
 
         {hasPrecipitation ? null : (
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }} container>
             <InsightUI
               loading={dataFetcherOutput.loading}
               error={dataFetcherOutput.error}
@@ -118,7 +118,7 @@ function App() {
           </Grid>
         )}
 
-        <Grid size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }} container>
           <CohereAssistantUI
             weatherData={dataFetcherOutput.data?.current}
             weatherInfo={dataFetcherOutput.data?.hourly}

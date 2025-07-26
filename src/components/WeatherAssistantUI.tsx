@@ -50,7 +50,7 @@ Basado en estos datos, responde de forma amigable y clara.
     <Container>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
         <Bot size={26} color='#1e40af' />
-        <Title children="Asistente de Clima" />
+        <Title children="Asistente del Clima" />
       </div>
 
       {/* Input y botón */}

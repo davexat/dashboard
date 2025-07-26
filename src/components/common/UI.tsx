@@ -22,22 +22,16 @@ interface ContainerProps extends CommonProps {
 }
 
 export function Container({ children, style, className, container = true }: ContainerProps) {
-  const containerStyle = container ? {
-    background: '#fff',
-    borderRadius: '1rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-    padding: '1.5rem',
-  } : {};
+  const containerClass = container ? 'myContainer' : '';
 
   return (
     <div
       style={{
-        ...containerStyle,
         width: '100%',
         boxSizing: 'border-box',
         ...style
       }}
-      className={className}
+      className={`${className} ${containerClass}`}
     >
       {children}
     </div>
