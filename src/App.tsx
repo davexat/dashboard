@@ -26,19 +26,20 @@ function App() {
   return (
     <>
       <Grid container spacing={5} justifyContent="center" alignItems="center">
-        <Grid size={{ xs: 15, md: 15 }}>
+        <Grid size={{ xs: 12 }}>
           <HeaderUI />
         </Grid>
-        <Grid size={{ xs: 15, md: 6 }}>
+        <Grid size={{ xs: 12, md: 7 }} container spacing={5}>
           <LocationSelectorUI onLocationSelect={setCity} />
-        </Grid>
-        <Grid size={{ xs: 15, md: 6 }}>
-          <DailyTemperatureChart
+          <IndicatorUI
             loading={dataFetcherOutput.loading}
             error={dataFetcherOutput.error}
-            maxTemperature={dataFetcherOutput.data?.daily.temperature_2m_max ?? []}
-            minTemperature={dataFetcherOutput.data?.daily.temperature_2m_min ?? []}
-            date={dataFetcherOutput.data?.daily.time ?? []}
+            temperature={dataFetcherOutput.data?.current?.temperature_2m ?? 0}
+            humidity={dataFetcherOutput.data?.current?.relative_humidity_2m ?? 0}
+            windSpeed={dataFetcherOutput.data?.current?.wind_speed_10m ?? 0}
+            uvIndex={dataFetcherOutput.data?.daily?.uv_index_max[0] ?? 0}
+            sunrise={dataFetcherOutput.data?.daily?.sunrise[0] ?? '00:00'}
+            sunset={dataFetcherOutput.data?.daily?.sunset[0] ?? '00:00'}
           />
           <PrecipitationBarChart
             loading={dataFetcherOutput.loading}
@@ -46,15 +47,9 @@ function App() {
             rainSum={dataFetcherOutput.data?.daily.rain_sum ?? []}
             time={dataFetcherOutput.data?.daily.time ?? []}
           />
-          <TodayTemperatureChart
-            loading={dataFetcherOutput.loading}
-            error={dataFetcherOutput.error}
-            temperature={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
-            apparentTemp={dataFetcherOutput.data?.hourly.apparent_temperature ?? []}
-            time={dataFetcherOutput.data?.hourly.time ?? []}
-          />
         </Grid>
-        <Grid size={{ xs: 15, md: 6 }}>
+
+        <Grid size={{ xs: 12, md: 5 }} container spacing={5}>
           <AlertUI
             loading={dataFetcherOutput.loading}
             error={dataFetcherOutput.error}
@@ -73,22 +68,6 @@ function App() {
             dailyRainSum={dataFetcherOutput.data?.daily.rain_sum ?? []}
             hourlyWindSpeed={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
           />
-        </Grid>
-
-        <Grid size={{ xs: 15, lg: 6 }}>
-          <IndicatorUI
-            loading={dataFetcherOutput.loading}
-            error={dataFetcherOutput.error}
-            temperature={dataFetcherOutput.data?.current?.temperature_2m ?? 0}
-            humidity={dataFetcherOutput.data?.current?.relative_humidity_2m ?? 0}
-            windSpeed={dataFetcherOutput.data?.current?.wind_speed_10m ?? 0}
-            uvIndex={dataFetcherOutput.data?.daily?.uv_index_max[0] ?? 0}
-            sunrise={dataFetcherOutput.data?.daily?.sunrise[0] ?? '00:00'}
-            sunset={dataFetcherOutput.data?.daily?.sunset[0] ?? '00:00'}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 15, lg: 6 }}>
           <TableUI
             loading={dataFetcherOutput.loading}
             error={dataFetcherOutput.error}
@@ -100,7 +79,26 @@ function App() {
           />
         </Grid>
 
-        <Grid size={{ xs: 15, md: 15 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <DailyTemperatureChart
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            maxTemperature={dataFetcherOutput.data?.daily.temperature_2m_max ?? []}
+            minTemperature={dataFetcherOutput.data?.daily.temperature_2m_min ?? []}
+            date={dataFetcherOutput.data?.daily.time ?? []}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <TodayTemperatureChart
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            temperature={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
+            apparentTemp={dataFetcherOutput.data?.hourly.apparent_temperature ?? []}
+            time={dataFetcherOutput.data?.hourly.time ?? []}
+          />
+        </Grid>
+
+        <Grid size={{ xs: 12 }}>
           <CohereAssistantUI
             weatherData={dataFetcherOutput.data?.current}
             weatherInfo={dataFetcherOutput.data?.hourly}

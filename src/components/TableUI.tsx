@@ -27,7 +27,7 @@ const TableUI = ({ loading, error, labels, temperature, windSpeed, humidity, wea
 
   const today = new Date();
   const todayStr = today.toISOString().slice(0, 10);
-  const indicesToday = labels.map((label, idx) => label.slice(0, 10) === todayStr ? idx : -1).filter(idx => idx !== -1).slice(0, 12);
+  const indicesToday = labels.map((label, idx) => label.slice(0, 10) === todayStr ? idx : -1).filter(idx => idx !== -1).slice(0, 24);
   const hourlyData = indicesToday.map(idx => ({
     time: new Date(labels[idx]).toLocaleTimeString('es-ES', { hour: '2-digit', hour12: true }),
     temperature: Math.round(temperature[idx]),

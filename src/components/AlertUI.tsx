@@ -2,6 +2,7 @@ import { Wind, Sun, ThermometerSun, Zap, CloudFog, CloudHail, Snowflake, Droplet
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import React from 'react';
+import { Title, Container } from './common/UI';
 
 interface AlertTemplateProps {
     icon: React.ReactNode;
@@ -276,7 +277,7 @@ export default function AlertUI({
     if (error) {
         return <div>Error: {error}</div>;
     }
-    
+
     const alertsToDisplay: AlertTemplateProps[] = [];
 
     // --- Grupo lluvia ---
@@ -357,22 +358,25 @@ export default function AlertUI({
     }
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-            {alertsToDisplay.length === 0 ? (
-                <AlertTemplate
-                    icon={<AlertTriangle size={24} color='#334155' />}
-                    title="Sin alertas activas"
-                    text="No se han detectado alertas meteorológicas para esta ubicación en este momento."
-                    borderColor='#e2e8f0'
-                    backgroundColor='#f8fafc'
-                    titleColor='#334155'
-                    textColor='#334155'
-                />
-            ) : (
-                alertsToDisplay.map((alert, index) => (
-                    <AlertTemplate key={index} {...alert} />
-                ))
-            )}
-        </Box>
+        <Container container={false}>
+            <Title children='Alertas Meteorológicas' />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                {alertsToDisplay.length === 0 ? (
+                    <AlertTemplate
+                        icon={<AlertTriangle size={24} color='#334155' />}
+                        title="Sin alertas activas"
+                        text="No se han detectado alertas meteorológicas para esta ubicación en este momento."
+                        borderColor='#e2e8f0'
+                        backgroundColor='#f8fafc'
+                        titleColor='#334155'
+                        textColor='#334155'
+                    />
+                ) : (
+                    alertsToDisplay.map((alert, index) => (
+                        <AlertTemplate key={index} {...alert} />
+                    ))
+                )}
+            </Box>
+        </Container>
     );
 }

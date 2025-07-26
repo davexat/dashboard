@@ -22,7 +22,7 @@ function IndicatorTemplate(indicator: IndicatorTemplateProps) {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 boxShadow: undefined,
-                flex: '1 0 225px'
+                flex: '1 0 150px'
             }}
             onMouseEnter={e => {
                 (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px 0 rgba(0,0,0,0.10)';
@@ -113,7 +113,7 @@ export default function IndicatorUI({ loading, error, temperature, humidity, win
     ];
 
     return (
-        <Container>
+        <Container container={false}>
             <Title children='Condiciones Actuales' />
             <div style={{
                 display: 'flex',

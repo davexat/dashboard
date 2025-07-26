@@ -44,7 +44,17 @@ export function DailyTemperatureChart({ loading, error, maxTemperature, minTempe
                     <YAxis
                         stroke="#6b7280"
                         fontSize={12}
-                        label={{ value: 'Temperatura °C', angle: -90, position: 'insideLeft' }}
+                        label={{
+                            value: 'Temp. °C',
+                            angle: -90,
+                            position: 'insideLeft',
+                            style: {
+                                fontFamily: 'Roboto, Arial, sans-serif',
+                                fontSize: 18,
+                                fill: '#1e293b',
+                                letterSpacing: '0.5px',
+                            }
+                        }}
                     />
                     <Tooltip
                         contentStyle={{
@@ -109,7 +119,21 @@ export function PrecipitationBarChart({ loading, error, rainSum, time }: Precipi
                 <BarChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e0e7ff" />
                     <XAxis dataKey="date" stroke="#6b7280" fontSize={12} />
-                    <YAxis stroke="#6b7280" fontSize={12} label={{ value: 'mm', angle: -90, position: 'insideLeft' }} />
+                    <YAxis
+                        stroke="#6b7280"
+                        fontSize={12}
+                        label={{
+                            value: 'Prec. mm',
+                            angle: -90,
+                            position: 'insideLeft',
+                            style: {
+                                fontFamily: 'Roboto, Arial, sans-serif',
+                                fontSize: 18,
+                                fill: '#1e293b',
+                                letterSpacing: '0.5px',
+                            }
+                        }}
+                    />
                     <Tooltip
                         contentStyle={{
                             backgroundColor: '#f8fafc',
@@ -169,7 +193,20 @@ export function TodayTemperatureChart({ loading, error, temperature, apparentTem
                 <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e0e7ff" />
                     <XAxis dataKey="time" stroke="#6b7280" fontSize={12} />
-                    <YAxis stroke="#6b7280" fontSize={12} label={{ value: '°C', angle: -90, position: 'insideLeft' }} />
+                    <YAxis
+                        stroke="#6b7280"
+                        fontSize={12}
+                        label={{
+                            value: 'Temp. °C',
+                            angle: -90,
+                            position: 'insideLeft',
+                            style: {
+                                fontFamily: 'Roboto, Arial, sans-serif',
+                                fontSize: 18,
+                                fill: '#1e293b',
+                            }
+                        }}
+                    />
                     <Tooltip
                         contentStyle={{
                             backgroundColor: '#f8fafc',

@@ -17,14 +17,22 @@ export function Title({ children, style, className }: CommonProps) {
   );
 }
 
-export function Container({ children, style, className }: CommonProps) {
+interface ContainerProps extends CommonProps {
+  container?: boolean;
+}
+
+export function Container({ children, style, className, container = true }: ContainerProps) {
+  const containerStyle = container ? {
+    background: '#fff',
+    borderRadius: '1rem',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+    padding: '1.5rem',
+  } : {};
+
   return (
     <div
       style={{
-        background: '#fff',
-        borderRadius: '1rem',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-        padding: '1.5rem',
+        ...containerStyle,
         width: '100%',
         boxSizing: 'border-box',
         ...style
