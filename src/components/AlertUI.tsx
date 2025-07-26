@@ -99,7 +99,7 @@ const dailyMaxTemperatureAlert: AlertTemplateProps = {
     title: 'Temperatura máxima diaria extrema',
     text: 'Se espera una temperatura máxima muy alta hoy. Manténgase hidratado y evite la exposición al sol.',
     borderColor: '#fde68a',
-    backgroundColor: '#fef9c3',
+    backgroundColor: '#fffcdd',
     titleColor: '#b45309',
     textColor: '#92400e'
 };
