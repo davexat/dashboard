@@ -1,5 +1,5 @@
 import './App.css';
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
 import LocationSelectorUI from './components/LocationSelectorUI';
@@ -69,12 +69,8 @@ function App() {
             currentCloudCover={dataFetcherOutput.data?.current?.cloud_cover ?? 0}
             dailyUvIndexMax={dataFetcherOutput.data?.daily.uv_index_max ?? []}
             dailyPrecipitationProbabilityMax={dataFetcherOutput.data?.daily.precipitation_probability_max ?? []}
-            dailyTemperatureMax={dataFetcherOutput.data?.daily.temperature_2m_max ?? []}
-            dailyTemperatureMin={dataFetcherOutput.data?.daily.temperature_2m_min ?? []}
             dailySnowfallSum={dataFetcherOutput.data?.daily.snowfall_sum ?? []}
             dailyRainSum={dataFetcherOutput.data?.daily.rain_sum ?? []}
-            hourlyWeatherCodes={dataFetcherOutput.data?.hourly.weather_code ?? []}
-            hourlyTemperature={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
             hourlyWindSpeed={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
           />
         </Grid>

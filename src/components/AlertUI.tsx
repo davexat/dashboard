@@ -113,26 +113,6 @@ const dailyMinTemperatureAlert: AlertTemplateProps = {
     textColor: '#0e7490'
 };
 
-const hourlyExtremeTemperatureAlert: AlertTemplateProps = {
-    icon: <ThermometerSun size={24} color='#fbbf24' />,
-    title: 'Temperatura extrema próxima hora',
-    text: 'Se pronostica temperatura extrema en la próxima hora. Tome precauciones.',
-    borderColor: '#fde68a',
-    backgroundColor: '#fef9c3',
-    titleColor: '#b45309',
-    textColor: '#92400e'
-};
-
-const hourlyWeatherCodeAlert: AlertTemplateProps = {
-    icon: <AlertTriangle size={24} color='#f59e42' />,
-    title: 'Alerta meteorológica próxima hora',
-    text: 'Se pronostica evento meteorológico relevante en la próxima hora. Manténgase informado.',
-    borderColor: '#fef3c7',
-    backgroundColor: '#fffbeb',
-    titleColor: '#92400e',
-    textColor: '#92400e'
-};
-
 const forecastStrongWindAlert: AlertTemplateProps = {
     icon: <Wind size={24} color='#64748b' />,
     title: 'Viento fuerte pronosticado',
@@ -267,12 +247,8 @@ interface AlertUIProps {
     currentCloudCover: number;
     dailyUvIndexMax: number[];
     dailyPrecipitationProbabilityMax: number[];
-    dailyTemperatureMax: number[];
-    dailyTemperatureMin: number[];
     dailySnowfallSum: number[];
     dailyRainSum: number[];
-    hourlyWeatherCodes: number[];
-    hourlyTemperature: number[];
     hourlyWindSpeed: number[];
 }
 
@@ -290,12 +266,8 @@ export default function AlertUI({
     currentCloudCover,
     dailyUvIndexMax,
     dailyPrecipitationProbabilityMax,
-    dailyTemperatureMax,
-    dailyTemperatureMin,
     dailySnowfallSum,
     dailyRainSum,
-    hourlyWeatherCodes,
-    hourlyTemperature,
     hourlyWindSpeed
 }: AlertUIProps) {
     if (loading) {
@@ -307,90 +279,47 @@ export default function AlertUI({
     
     const alertsToDisplay: AlertTemplateProps[] = [];
 
-    // Precipitación actual
-    if (currentPrecipitation > 10 || currentRain > 10) { // umbral ejemplo: >10mm
-        alertsToDisplay.push(heavyRainAlert);
+    // --- Grupo lluvia ---
+    let lluviaAlert: AlertTemplateProps | null = null;
+    if (currentPrecipitation > 10 || currentRain > 10) {
+        lluviaAlert = heavyRainAlert;
+    } else if (dailyRainSum[0] > 30) {
+        lluviaAlert = rainAccumulationAlert;
     }
+    if (lluviaAlert) alertsToDisplay.push(lluviaAlert);
 
-    // Acumulación de lluvia diaria
-    if (dailyRainSum[0] > 30) { // umbral ejemplo: >30mm
-        alertsToDisplay.push(rainAccumulationAlert);
+    // --- Grupo nieve ---
+    let nieveAlert: AlertTemplateProps | null = null;
+    if (currentSnowfall > 5) {
+        nieveAlert = currentSnowfallAlert;
+    } else if (dailySnowfallSum[0] > 10) {
+        nieveAlert = snowAccumulationAlert;
     }
+    if (nieveAlert) alertsToDisplay.push(nieveAlert);
 
-
-    // Acumulación de nieve diaria
-    if (dailySnowfallSum[0] > 10) { // umbral ejemplo: >10cm
-        alertsToDisplay.push(snowAccumulationAlert);
-    }
-
-    // Nevada actual
-    if (currentSnowfall > 5) { // umbral ejemplo: >5cm
-        alertsToDisplay.push(currentSnowfallAlert);
-    }
-
-    // Temperatura máxima diaria extrema
-    if (dailyTemperatureMax[0] > 35) {
-        alertsToDisplay.push(dailyMaxTemperatureAlert);
-    }
-
-    // Temperatura mínima diaria extrema
-    if (dailyTemperatureMin[0] < 0) {
-        alertsToDisplay.push(dailyMinTemperatureAlert);
-    }
-
-    // Temperatura extrema próxima hora
-    if (Math.max(...hourlyTemperature) > 35 || Math.min(...hourlyTemperature) < 0) {
-        alertsToDisplay.push(hourlyExtremeTemperatureAlert);
-    }
-
-    // Alerta meteorológica próxima hora por weather code
-    if (hourlyWeatherCodes.some(code => code >= 95 && code <= 99)) {
-        alertsToDisplay.push(hourlyWeatherCodeAlert);
-    }
-
-    // Viento fuerte pronosticado
-    if (Math.max(...hourlyWindSpeed) > 40) { // umbral ejemplo: >40km/h
-        alertsToDisplay.push(forecastStrongWindAlert);
-    }
-
-    // Nubosidad extrema actual
-    if (currentCloudCover > 90) {
-        alertsToDisplay.push(extremeCloudCoverAlert);
-    }
-
-    // Chubascos actuales
-    if (currentShowers > 5) { // umbral ejemplo: >5mm
-        alertsToDisplay.push(showersAlert);
-    }
-
-    // Temperatura alta actual
-    if (currentTemperature > 30) {
-        alertsToDisplay.push(htAlert);
+    // --- Grupo temperatura ---
+    let temperaturaAlert: AlertTemplateProps | null = null;
+    if (currentTemperature > 35) {
+        temperaturaAlert = htAlert;
+    } else if (currentTemperature > 30) {
+        temperaturaAlert = dailyMaxTemperatureAlert;
+    } else if (currentTemperature < 0) {
+        temperaturaAlert = ltAlert;
     } else if (currentTemperature < 5) {
-        alertsToDisplay.push(ltAlert);
+        temperaturaAlert = dailyMinTemperatureAlert;
     }
+    if (temperaturaAlert) alertsToDisplay.push(temperaturaAlert);
 
-    // Viento fuerte actual
+    // --- Grupo viento ---
+    let vientoAlert: AlertTemplateProps | null = null;
     if (currentWindSpeed > 40) {
-        alertsToDisplay.push(windAlert);
+        vientoAlert = windAlert;
+    } else if (Math.max(...hourlyWindSpeed) > 40) {
+        vientoAlert = forecastStrongWindAlert;
     }
+    if (vientoAlert) alertsToDisplay.push(vientoAlert);
 
-    // Baja humedad
-    if (currentRelativeHumidity < 30) {
-        alertsToDisplay.push(lowHumidityAlert);
-    }
-
-    // UV alto
-    if (dailyUvIndexMax[0] > 7) {
-        alertsToDisplay.push(uvAlert);
-    }
-
-    // Alta probabilidad de lluvia
-    if (dailyPrecipitationProbabilityMax[0] > 70) {
-        alertsToDisplay.push(highPrecipitationProbAlert);
-    }
-
-    // Weather code based alerts (WMO)
+    // --- Weather code prioritario ---
     if (typeof currentWeatherCode !== 'undefined') {
         const weatherCode = currentWeatherCode;
         if (weatherCode >= 95 && weatherCode <= 99) {
@@ -408,6 +337,23 @@ export default function AlertUI({
         } else if (weatherCode >= 20 && weatherCode <= 29) {
             alertsToDisplay.push(thunderstormAlert);
         }
+    }
+
+    // --- Alertas independientes ---
+    if (currentCloudCover > 90) {
+        alertsToDisplay.push(extremeCloudCoverAlert);
+    }
+    if (currentShowers > 5) {
+        alertsToDisplay.push(showersAlert);
+    }
+    if (currentRelativeHumidity < 30) {
+        alertsToDisplay.push(lowHumidityAlert);
+    }
+    if (dailyUvIndexMax[0] > 7) {
+        alertsToDisplay.push(uvAlert);
+    }
+    if (dailyPrecipitationProbabilityMax[0] > 70) {
+        alertsToDisplay.push(highPrecipitationProbAlert);
     }
 
     return (
