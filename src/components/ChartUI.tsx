@@ -1,18 +1,25 @@
 import { LineChart, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Line, ResponsiveContainer, Bar } from 'recharts';
-import type { DataFetcherOutput } from '../types/Interfaces';
 import { Title, Container } from './common/UI';
 
-export function DailyTemperatureChart({ data }: { data: DataFetcherOutput }) {
-    if (data.loading) {
+interface DailyTemperatureProps {
+    loading: boolean;
+    error: string | null;
+    maxTemperature: number[];
+    minTemperature: number[];
+    date: string[];
+}
+
+export function DailyTemperatureChart({ loading, error, maxTemperature, minTemperature, date }: DailyTemperatureProps) {
+    if (loading) {
         return <div>Cargando datos...</div>;
     }
-    if (data.error) {
-        return <div>Error: {data.error}</div>;
+    if (error) {
+        return <div>Error: {error}</div>;
     }
 
-    const maxTemps = data.data?.daily.temperature_2m_max || [];
-    const minTemps = data.data?.daily.temperature_2m_min || [];
-    const dates = data.data?.daily.time || [];
+    const maxTemps = maxTemperature || [];
+    const minTemps = minTemperature || [];
+    const dates = date || [];
 
     const dailyData = dates.map((date, index) => ({
         date: new Date(date).toLocaleDateString('es-ES', {
@@ -69,16 +76,23 @@ export function DailyTemperatureChart({ data }: { data: DataFetcherOutput }) {
     );
 }
 
-export function PrecipitationBarChart({ data }: { data: DataFetcherOutput }) {
-    if (data.loading) {
+interface PrecipitationBarChartProps {
+    loading: boolean;
+    error: string | null;
+    rainSum: number[];
+    time: string[];
+}
+
+export function PrecipitationBarChart({ loading, error, rainSum, time }: PrecipitationBarChartProps) {
+    if (loading) {
         return <div>Cargando datos...</div>;
     }
-    if (data.error) {
-        return <div>Error: {data.error}</div>;
+    if (error) {
+        return <div>Error: {error}</div>;
     }
 
-    const precipitation = data.data?.daily.rain_sum || [];
-    const dates = data.data?.daily.time || [];
+    const precipitation = rainSum || [];
+    const dates = time || [];
 
     const chartData = dates.map((date, idx) => ({
         date: new Date(date).toLocaleDateString('es-ES', {
@@ -111,17 +125,25 @@ export function PrecipitationBarChart({ data }: { data: DataFetcherOutput }) {
     );
 }
 
-export function TodayTemperatureChart({ data }: { data: DataFetcherOutput }) {
-    if (data.loading) {
+interface TodayTemperatureChartProps {
+    loading: boolean;
+    error: string | null;
+    temperature: number[];
+    apparentTemp: number[];
+    time: string[];
+}
+
+export function TodayTemperatureChart({ loading, error, temperature, apparentTemp, time }: TodayTemperatureChartProps) {
+    if (loading) {
         return <div>Cargando datos...</div>;
     }
-    if (data.error) {
-        return <div>Error: {data.error}</div>;
+    if (error) {
+        return <div>Error: {error}</div>;
     }
 
-    const temperatures = data.data?.hourly.temperature_2m || [];
-    const apparent_temp = data.data?.hourly.apparent_temperature || [];
-    const times = data.data?.hourly.time || [];
+    const temperatures = temperature || [];
+    const apparent_temp = apparentTemp || [];
+    const times = time || [];
 
     const today = new Date().toISOString().slice(0, 10);
     const chartData = times.map((time, idx) => ({
@@ -137,8 +159,8 @@ export function TodayTemperatureChart({ data }: { data: DataFetcherOutput }) {
         apparent_temperature: item.apparent_temperature
     }));
 
-    console.log(data.data?.hourly.temperature_2m);
-    console.log(data.data?.hourly.apparent_temperature);
+    console.log(temperature);
+    console.log(apparentTemp);
 
     return (
         <Container>

@@ -15,27 +15,24 @@ interface TableUIProps {
   loading: boolean;
   error: string | null;
   labels: string[];
-  values1: number[];
-  values2: number[];
-  humidity?: number[];
-  weatherCodes?: number[];
+  temperature: number[];
+  windSpeed: number[];
+  humidity: number[];
+  weatherCodes: number[];
 }
 
-const TableUI = ({ loading, error, labels, values1, values2, humidity = [], weatherCodes = [] }: TableUIProps) => {
+const TableUI = ({ loading, error, labels, temperature, windSpeed, humidity, weatherCodes }: TableUIProps) => {
   if (loading) return <Typography>Cargando tabla...</Typography>;
   if (error) return <Typography color="error">Error: {error}</Typography>;
-  if (!labels.length || !values1.length || !values2.length || !humidity.length || !weatherCodes.length) {
-    return <Typography>No hay datos para mostrar.</Typography>;
-  }
 
   const today = new Date();
   const todayStr = today.toISOString().slice(0, 10);
   const indicesToday = labels.map((label, idx) => label.slice(0, 10) === todayStr ? idx : -1).filter(idx => idx !== -1).slice(0, 12);
   const hourlyData = indicesToday.map(idx => ({
     time: new Date(labels[idx]).toLocaleTimeString('es-ES', { hour: '2-digit', hour12: true }),
-    temperature: Math.round(values1[idx]),
+    temperature: Math.round(temperature[idx]),
     humidity: humidity[idx],
-    windSpeed: values2[idx]?.toFixed(1) || '0.0',
+    windSpeed: windSpeed[idx]?.toFixed(1) || '0.0',
     condition: getWeatherDescription(weatherCodes[idx]),
   }));
 

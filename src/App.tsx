@@ -33,9 +33,26 @@ function App() {
           <LocationSelectorUI onLocationSelect={setCity} />
         </Grid>
         <Grid size={{ xs: 15, md: 6 }}>
-          <DailyTemperatureChart data={dataFetcherOutput} />
-          <PrecipitationBarChart data={dataFetcherOutput} />
-          <TodayTemperatureChart data={dataFetcherOutput} />
+          <DailyTemperatureChart
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            maxTemperature={dataFetcherOutput.data?.daily.temperature_2m_max ?? []}
+            minTemperature={dataFetcherOutput.data?.daily.temperature_2m_min ?? []}
+            date={dataFetcherOutput.data?.daily.time ?? []}
+          />
+          <PrecipitationBarChart
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            rainSum={dataFetcherOutput.data?.daily.rain_sum ?? []}
+            time={dataFetcherOutput.data?.daily.time ?? []}
+          />
+          <TodayTemperatureChart
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            temperature={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
+            apparentTemp={dataFetcherOutput.data?.hourly.apparent_temperature ?? []}
+            time={dataFetcherOutput.data?.hourly.time ?? []}
+          />
         </Grid>
         <Grid size={{ xs: 15, md: 6 }}>
           {dataFetcherOutput.loading ? (
@@ -51,9 +68,16 @@ function App() {
           {dataFetcherOutput.loading && <p>Cargando datos...</p>}
           {dataFetcherOutput.error && <p>Error: {dataFetcherOutput.error}</p>}
           {dataFetcherOutput.data && (
-            <>
-              <IndicatorUI data={dataFetcherOutput} />
-            </>
+            <IndicatorUI
+              loading={dataFetcherOutput.loading}
+              error={dataFetcherOutput.error}
+              temperature={dataFetcherOutput.data?.current?.temperature_2m}
+              humidity={dataFetcherOutput.data?.current?.relative_humidity_2m}
+              windSpeed={dataFetcherOutput.data?.current?.wind_speed_10m}
+              uvIndex={dataFetcherOutput.data?.daily?.uv_index_max[0]}
+              sunrise={dataFetcherOutput.data?.daily?.sunrise[0]}
+              sunset={dataFetcherOutput.data?.daily?.sunset[0]}
+            />
           )}
         </Grid>
 
@@ -62,8 +86,8 @@ function App() {
             loading={dataFetcherOutput.loading}
             error={dataFetcherOutput.error}
             labels={dataFetcherOutput.data?.hourly.time ?? []}
-            values1={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
-            values2={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
+            temperature={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
+            windSpeed={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
             humidity={dataFetcherOutput.data?.hourly.relative_humidity_2m ?? []}
             weatherCodes={dataFetcherOutput.data?.hourly.weather_code ?? []}
           />

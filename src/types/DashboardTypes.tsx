@@ -75,6 +75,12 @@ export interface Current {
   temperature_2m: number;
   wind_speed_10m: number;
   apparent_temperature: number;
+  weather_code: number;
+  precipitation: number;
+  rain: number;
+  showers: number;
+  snowfall: number;
+  cloud_cover: number;
 }
 
 export interface Currentunits {
@@ -84,6 +90,12 @@ export interface Currentunits {
   temperature_2m: string;
   wind_speed_10m: string;
   apparent_temperature: string;
+  weather_code: string;
+  precipitation: string;
+  rain: string;
+  showers: string;
+  snowfall: string;
+  cloud_cover: string;
 }
 
 export interface Location {

@@ -2,7 +2,7 @@ import type { DataFetcherOutput } from '../types/Interfaces';
 import { Thermometer, Droplets, Wind, Sun, Sunrise, Sunset } from 'lucide-react';
 import { Title, Container } from './common/UI';
 
-interface IndicatorUIProps {
+interface IndicatorTemplateProps {
     icon: React.ReactNode;
     type: string;
     indicator: string;
@@ -10,7 +10,7 @@ interface IndicatorUIProps {
     backgroundColor: string;
 }
 
-function IndicatorTemplate(indicator: IndicatorUIProps) {
+function IndicatorTemplate(indicator: IndicatorTemplateProps) {
     return (
         <div
             style={{
@@ -49,15 +49,26 @@ function IndicatorTemplate(indicator: IndicatorUIProps) {
     )
 }
 
-export default function IndicatorUI({ data }: { data: DataFetcherOutput }) {
-    const temperature = data.data?.current.temperature_2m;
-    const humidity = data.data?.current.relative_humidity_2m;
-    const wind = data.data?.current.wind_speed_10m;
-    const uvIndex = data.data?.daily.uv_index_max?.[0];
-    const sunrise = data.data?.daily.sunrise?.[0];
-    const sunset = data.data?.daily.sunset?.[0];
+interface IndicatorUIProps {
+    loading: boolean;
+    error: string | null;
+    temperature: number;
+    humidity: number;
+    windSpeed: number;
+    uvIndex: number;
+    sunrise: string;
+    sunset: string;
+}
 
-    const indicatorProps: IndicatorUIProps[] = [
+export default function IndicatorUI({ loading, error, temperature, humidity, windSpeed, uvIndex, sunrise, sunset }: IndicatorUIProps) {
+    if (loading) {
+        return <div>Cargando indicadores...</div>;
+    }
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    const indicatorProps: IndicatorTemplateProps[] = [
         {
             icon: <Thermometer size={32} color="#ef4444" />,
             type: 'Temperatura',
@@ -75,7 +86,7 @@ export default function IndicatorUI({ data }: { data: DataFetcherOutput }) {
         {
             icon: <Wind size={32} color="#22c55e" />,
             type: 'Viento',
-            indicator: (wind !== undefined && wind !== null ? wind.toFixed(1) : "N/A") + " km/h",
+            indicator: (windSpeed !== undefined && windSpeed !== null ? windSpeed.toFixed(1) : "N/A") + " km/h",
             borderColor: "#bbf7d0",
             backgroundColor: "#f0fdf4",
         },
