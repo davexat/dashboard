@@ -75,8 +75,8 @@ export default function InsightUI({ loading, error, data }: DataFetcherOutput) {
 
     let thirdTitle = '';
     let thirdText = '';
-    let thirdColor = '#FBBF24';
-    let thirdBg = '#FEF9C3';
+    let thirdColor = '';
+    let thirdBg = '';
     if (current.relative_humidity_2m >= 80) {
         thirdTitle = 'Humedad elevada';
         thirdText = `La humedad actual es del ${current.relative_humidity_2m}%, un valor alto para esta época.`;
