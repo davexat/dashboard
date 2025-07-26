@@ -1,4 +1,3 @@
-import type { DataFetcherOutput } from '../types/Interfaces';
 import { Thermometer, Droplets, Wind, Sun, Sunrise, Sunset } from 'lucide-react';
 import { Title, Container } from './common/UI';
 

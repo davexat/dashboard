@@ -55,30 +55,41 @@ function App() {
           />
         </Grid>
         <Grid size={{ xs: 15, md: 6 }}>
-          {dataFetcherOutput.loading ? (
-            <Typography>Cargando alertas...</Typography>
-          ) : dataFetcherOutput.error ? (
-            <Typography color="error">Error al cargar alertas: {dataFetcherOutput.error}</Typography>
-          ) : (
-            <AlertUI data={dataFetcherOutput.data} />
-          )}
+          <AlertUI
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            currentTemperature={dataFetcherOutput.data?.current?.temperature_2m ?? 0}
+            currentWindSpeed={dataFetcherOutput.data?.current?.wind_speed_10m ?? 0}
+            currentRelativeHumidity={dataFetcherOutput.data?.current?.relative_humidity_2m ?? 0}
+            currentWeatherCode={dataFetcherOutput.data?.current?.weather_code ?? 0}
+            currentPrecipitation={dataFetcherOutput.data?.current?.precipitation ?? 0}
+            currentShowers={dataFetcherOutput.data?.current?.showers ?? 0}
+            currentRain={dataFetcherOutput.data?.current?.rain ?? 0}
+            currentSnowfall={dataFetcherOutput.data?.current?.snowfall ?? 0}
+            currentCloudCover={dataFetcherOutput.data?.current?.cloud_cover ?? 0}
+            dailyUvIndexMax={dataFetcherOutput.data?.daily.uv_index_max ?? []}
+            dailyPrecipitationProbabilityMax={dataFetcherOutput.data?.daily.precipitation_probability_max ?? []}
+            dailyTemperatureMax={dataFetcherOutput.data?.daily.temperature_2m_max ?? []}
+            dailyTemperatureMin={dataFetcherOutput.data?.daily.temperature_2m_min ?? []}
+            dailySnowfallSum={dataFetcherOutput.data?.daily.snowfall_sum ?? []}
+            dailyRainSum={dataFetcherOutput.data?.daily.rain_sum ?? []}
+            hourlyWeatherCodes={dataFetcherOutput.data?.hourly.weather_code ?? []}
+            hourlyTemperature={dataFetcherOutput.data?.hourly.temperature_2m ?? []}
+            hourlyWindSpeed={dataFetcherOutput.data?.hourly.wind_speed_10m ?? []}
+          />
         </Grid>
 
         <Grid size={{ xs: 15, lg: 6 }}>
-          {dataFetcherOutput.loading && <p>Cargando datos...</p>}
-          {dataFetcherOutput.error && <p>Error: {dataFetcherOutput.error}</p>}
-          {dataFetcherOutput.data && (
-            <IndicatorUI
-              loading={dataFetcherOutput.loading}
-              error={dataFetcherOutput.error}
-              temperature={dataFetcherOutput.data?.current?.temperature_2m}
-              humidity={dataFetcherOutput.data?.current?.relative_humidity_2m}
-              windSpeed={dataFetcherOutput.data?.current?.wind_speed_10m}
-              uvIndex={dataFetcherOutput.data?.daily?.uv_index_max[0]}
-              sunrise={dataFetcherOutput.data?.daily?.sunrise[0]}
-              sunset={dataFetcherOutput.data?.daily?.sunset[0]}
-            />
-          )}
+          <IndicatorUI
+            loading={dataFetcherOutput.loading}
+            error={dataFetcherOutput.error}
+            temperature={dataFetcherOutput.data?.current?.temperature_2m ?? 0}
+            humidity={dataFetcherOutput.data?.current?.relative_humidity_2m ?? 0}
+            windSpeed={dataFetcherOutput.data?.current?.wind_speed_10m ?? 0}
+            uvIndex={dataFetcherOutput.data?.daily?.uv_index_max[0] ?? 0}
+            sunrise={dataFetcherOutput.data?.daily?.sunrise[0] ?? '00:00'}
+            sunset={dataFetcherOutput.data?.daily?.sunset[0] ?? '00:00'}
+          />
         </Grid>
 
         <Grid size={{ xs: 15, lg: 6 }}>
