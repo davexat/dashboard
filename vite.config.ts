@@ -13,9 +13,9 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
       manifest: {
         id: '/dashboard/',
-        name: 'Dashboard del Clima',
-        short_name: 'Dashboard del Clima',
-        description: 'Dashboard del clima desarrollado con React y MUI',
+        name: 'Panel de Control del Clima',
+        short_name: 'Panel del Clima',
+        description: 'Panel de Control del clima desarrollado con React y MUI',
         theme_color: '#D3D1D1',
         icons: [
           {

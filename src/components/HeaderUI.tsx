@@ -9,7 +9,7 @@ export default function HeaderUI() {
                 <CloudSun className="header-icon" color="#fff" size={65} />
                 <div style={{ textAlign: 'left' }}>
                     <Typography variant="h4" component="h1" fontWeight="bold" color='#fff'>
-                        Dashboard de Clima
+                        Panel de Control del Clima
                     </Typography>
                     <Typography variant="h6" component="h2" color='#fff'>
                         Información meteorológica actualizada
