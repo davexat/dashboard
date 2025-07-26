@@ -108,15 +108,15 @@ function App() {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6 }}>
-          {hasPrecipitation ? null : (
+        {hasPrecipitation ? null : (
+          <Grid size={{ xs: 12, md: 6 }}>
             <InsightUI
               loading={dataFetcherOutput.loading}
               error={dataFetcherOutput.error}
               data={dataFetcherOutput.data}
             />
-          )}
-        </Grid>
+          </Grid>
+        )}
 
         <Grid size={{ xs: 12 }}>
           <CohereAssistantUI

@@ -1,4 +1,4 @@
-import { Wind, Sun, ThermometerSun, Zap, CloudFog, CloudHail, Snowflake, Droplet, AlertTriangle } from 'lucide-react'
+import { Wind, CloudRain, Droplets, CloudSnow, Sun, ThermometerSun, Zap, CloudFog, CloudHail, Snowflake, Droplet, AlertTriangle, ThermometerSnowflake, DropletOff } from 'lucide-react'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import React from 'react';
@@ -55,7 +55,7 @@ const thunderstormAlert: AlertTemplateProps = {
 }
 
 const heavyRainAlert: AlertTemplateProps = {
-    icon: <Droplet size={24} color='#2563eb' />,
+    icon: <CloudRain size={24} color='#2563eb' />,
     title: 'Lluvia intensa',
     text: 'Se detecta lluvia intensa en este momento. Extreme precauciones al salir.',
     borderColor: '#93c5fd',
@@ -65,7 +65,7 @@ const heavyRainAlert: AlertTemplateProps = {
 };
 
 const rainAccumulationAlert: AlertTemplateProps = {
-    icon: <Droplet size={24} color='#0ea5e9' />,
+    icon: <Droplets size={24} color='#0ea5e9' />,
     title: 'Acumulación de lluvia',
     text: 'Se espera una acumulación significativa de lluvia hoy. Riesgo de inundaciones.',
     borderColor: '#bae6fd',
@@ -85,7 +85,7 @@ const snowAccumulationAlert: AlertTemplateProps = {
 };
 
 const currentSnowfallAlert: AlertTemplateProps = {
-    icon: <Snowflake size={24} color='#60a5fa' />,
+    icon: <CloudSnow size={24} color='#60a5fa' />,
     title: 'Nevada actual',
     text: 'Está nevando en este momento. Precaución al salir y conducir.',
     borderColor: '#bae6fd',
@@ -105,7 +105,7 @@ const dailyMaxTemperatureAlert: AlertTemplateProps = {
 };
 
 const dailyMinTemperatureAlert: AlertTemplateProps = {
-    icon: <Snowflake size={24} color='#38bdf8' />,
+    icon: <ThermometerSnowflake size={24} color='#38bdf8' />,
     title: 'Temperatura mínima diaria extrema',
     text: 'Se espera una temperatura mínima muy baja hoy. Abríguese bien y evite salir si no es necesario.',
     borderColor: '#bae6fd',
@@ -175,7 +175,7 @@ const snowAlert: AlertTemplateProps = {
 }
 
 const lowHumidityAlert: AlertTemplateProps = {
-    icon: <Droplet size={24} color='#0ea5e9' />,
+    icon: <DropletOff size={24} color='#0ea5e9' />,
     title: "Baja humedad",
     text: "El ambiente es muy seco. Aumenta el riesgo de incendios y puede afectar la salud respiratoria.",
     borderColor: '#bae6fd',
@@ -225,7 +225,7 @@ const htAlert: AlertTemplateProps = {
 }
 
 const ltAlert: AlertTemplateProps = {
-    icon: <Snowflake size={24} color='#38bdf8' />,
+    icon: <ThermometerSnowflake size={24} color='#38bdf8' />,
     title: "Baja temperatura",
     text: "Se detectó temperatura extremadamente baja. Abríguese bien y limite la exposición al exterior.",
     borderColor: '#bae6fd',
